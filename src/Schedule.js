@@ -210,7 +210,7 @@ export default function Schedule() {
             let delay;
             if ((eventTime + 3600000) < currentTime ) {
                 console.log('Current time is later than event time plus 1 hour');
-                delay = 200; // Direkt EXPIRED
+                delay = 0; // Direkt EXPIRED
             } else {
                 delay = 3600000; // Timer auf 1h
             }        
@@ -241,6 +241,9 @@ export default function Schedule() {
         <div>
             <HeaderNavbar/>
             <Col className="scheduleCol">
+                <InnerCardMove/>
+                <InnerCardStretch/>
+                <InnerCardStandUp/>
                 <Form.Label className="scheduleTitle">Today</Form.Label>
                 {schedule.current.map((task, index) => {
                     let InnerCardComponent;

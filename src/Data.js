@@ -16,7 +16,7 @@ export default function Data() {
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
-        if (age && sex && workingTimes.startTime && workingTimes.endTime && workingTimes.breakStartTime && workingTimes.breakEndTime) {
+        if (((age <= 80) && (age >= 15)) && sex && workingTimes.startTime && workingTimes.endTime && workingTimes.breakStartTime && workingTimes.breakEndTime) {
             setIsValid(true);
         } else {
             setIsValid(false);
@@ -130,7 +130,8 @@ export default function Data() {
                         <Form.Label>Age</Form.Label>
                         <Form.Control 
                             as="input" 
-                            type="text" 
+                            type="number"
+                            min={0}
                             placeholder="Enter your age" 
                             className="select-data"
                             value={age}

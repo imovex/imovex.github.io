@@ -6,22 +6,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    .welcome {
-        margin-top: 2em;
-        width: 12em;
-    }
-    .title {
-        margin-top: 1em;
-        font-weight: bold;
-        font-size: large;
-    }
     
     .thanks-text {
         margin-block: 2em;
         font-size: larger;
         text-align: center;
-        width: 12em;
-        height: 8em;
+        width: 25%;
     }
     .button-col {
         display: flex;

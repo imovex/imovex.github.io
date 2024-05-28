@@ -1,43 +1,41 @@
 .intro {
     margin-left: auto;
     margin-right: auto;
-  }
+}
+
   .intro-row {
     display: flex;
     flex-direction: column;
     align-items: center;
     .welcome {
-        margin-top: 2em;
-        width: 12em;
-    }
-    .title {
-        margin-top: 1em;
-        font-weight: bold;
-        font-size: large;
+        margin-top: 2%;
+        width: 18%;
     }
     
     .info-text {
-        margin-block: 2em;
+        margin-block: 2%;
         font-size: larger;
         font-style: italic;
         text-align: center;
-        width: 12em;
-        height: 8em;
+        width: 20%;
     }
     .button-col {
         display: flex;
         justify-content: center;
     }
 
-    .ok-button {            
+    .ok-button {
+        position: absolute;         
         background-color: #FFFFFF;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: medium;
         color: #2d2d2d;
-        height: auto;
-        width: 8em;
+        margin-top: 2%;
+        margin-bottom: 1%;
+        height: 5%;
+        width: 10%;
     }
     .ok-button:hover {
         background-color: #F4F7FF;        

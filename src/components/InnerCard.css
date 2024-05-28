@@ -1,6 +1,6 @@
 .innerCard {
     height: 20% !important;
-    width: 40%;
+    width: 30%;
     margin-bottom: 5px;
     border-color: #FF3333 !important;
     border-width: 1.5px !important;
@@ -80,8 +80,8 @@
             width: 100%;
             .form-check-input {
                 border-color: #7DF481;
-                height: 1.2em;
-                width: 1.2em;
+                height: 1.5em;
+                width: 1.5em;
             }
             .form-check-input:checked {
                 background-color: #7DF481;
