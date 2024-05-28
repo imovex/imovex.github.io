@@ -1,0 +1,61 @@
+.modal.show {
+    .form-control {
+        width: 100%;
+        border-color: #051C59;
+        text-align: center;
+        font-size: medium;
+    }
+    .form-label {
+        align-self: self-start;
+        font-weight: bold;
+        font-size: large;
+    }
+    .error {
+        color: #FF3333;
+        font-size: small;
+    }
+    .modal-dialog {
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        height: auto;
+        font-family: 'Atkinson Hyperlegible';
+        font-size: medium;
+        text-align: center;
+        width: 45%;
+    }
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .modal-content {
+        border-width: 2px;
+        border-color: #051C59;
+        .modal-body {
+            border-radius: 1em;
+        }
+    }
+    .saveButton {        
+        align-self: self-end;
+        background-color: #FFFFFF;
+        border-color: #7df481;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: medium;
+        color: #2d2d2d;
+        margin-top: 1em;
+        height: 2em;
+        width: 6em;
+    }
+    .saveButton:hover {
+        background-color: #F4F7FF !important;
+        color: #2d2d2d !important;
+    }
+    .saveButton:active {
+        background-color: #DFE6F0 !important;
+        color: #2d2d2d !important;
+    }
+}

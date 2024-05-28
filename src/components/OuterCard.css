@@ -1,0 +1,34 @@
+.outerCard {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-color: #172E9A !important;
+    font-size: large;
+    font-weight: normal;
+    width: 35%;
+    .col {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .form-label {
+        margin: 0;
+    }
+    .taskTime {
+        font-weight: bold;
+    }
+}
+
+.outerCard.Confirmed {
+    border-color: #7DF481 !important;
+    background-color: #F4F7FF !important;    
+}
+
+.outerCard.Rejected {
+    border-color: #FF3333 !important;
+    background-color: #F4F7FF !important;   
+}
+
+.outerCard.Expired {
+    border-color: #ffb310 !important;
+    background-color: #F4F7FF !important;    
+}

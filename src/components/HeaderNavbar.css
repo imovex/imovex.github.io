@@ -1,0 +1,14 @@
+.navbar {
+    background: #051C59;
+  
+    .settings-icon {
+      height: 2em;
+      width: 2em;
+      color: #7df481;
+    }
+  
+    .app-logo {
+      width: 10em;
+      margin-right: 5em;
+    }
+}
