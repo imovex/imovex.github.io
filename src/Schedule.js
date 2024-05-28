@@ -241,9 +241,6 @@ export default function Schedule() {
         <div>
             <HeaderNavbar/>
             <Col className="scheduleCol">
-                <InnerCardMove/>
-                <InnerCardStretch/>
-                <InnerCardStandUp/>
                 <Form.Label className="scheduleTitle">Today</Form.Label>
                 {schedule.current.map((task, index) => {
                     let InnerCardComponent;
