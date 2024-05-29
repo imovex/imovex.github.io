@@ -77,7 +77,7 @@ export default function Data() {
                 }
                 });
             }
-            const API_BASE_URL = 'http://185.113.125.111:8080';      
+            const API_BASE_URL = 'https://sschulz.fra.ics.inovex.io';      
 
             const publicVapidKey = await getPublicKey();
             const urlBase64ToUint8Array = (base64String) => {

@@ -4,10 +4,10 @@ const WorkingTimesContext = createContext();
 
 export const WorkingTimesProvider = ({ children }) => {
   const initialWorkingTimes = {
-    startTime: "08:00",
-    breakStartTime: "12:00",
-    breakEndTime: "13:00",
-    endTime: "17:00"
+      startTime: "08:00",
+      breakStartTime: "12:00",
+      breakEndTime: "13:00",
+      endTime: "17:00"
   };
   const [workingTimes, setWorkingTimes] = useState(initialWorkingTimes);
 
