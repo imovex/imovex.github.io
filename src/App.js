@@ -23,7 +23,7 @@ function App(){
         const isGamified = localStorage.getItem('gamification') === 'true';
   
         if (isFirstVisit) {
-          navigate('/');
+          navigate('/intro');
         } else if (isGamified) {
           navigate('/gschedule');
         } else {
@@ -39,7 +39,7 @@ function App(){
     return (
       <div className="App">
         <Routes>
-          <Route path="/" element={<Intro />} />
+          <Route path="/intro" element={<Intro />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/data" element={<Data />} />
           <Route path="/schedule" element={<Schedule />} />
