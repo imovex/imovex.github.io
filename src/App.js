@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Route, BrowserRouter as Router, Routes, Redirect, useNavigate } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes, useRoutes } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import Intro from './Intro';
 import Disclaimer from './Disclaimer';
 import Data from './Data';
@@ -12,31 +13,40 @@ import NotFoundPage from './NotFoundPage';
 import './App.css';
 
 function App() {
-
-  const navigate = useNavigate();
+  const history = createBrowserHistory();
 
   useEffect(() => {
-    const redirectPath = localStorage.getItem('redirectPath');
-    if (redirectPath) {
-      localStorage.removeItem('redirectPath');
-      navigate(redirectPath);
+    const isFirstVisit = (localStorage.getItem('userId') === null);
+    const isGamified = (localStorage.getItem('gamification') === 'true');
+
+    if (isFirstVisit) {
+      history.push('/intro');
+    } else if (isGamified) {
+      history.push('/gschedule');
+    } else {
+      history.push('/schedule');
     }
-  }, [navigate]);
+
+    const path = localStorage.getItem('path');
+    if (path) {
+      localStorage.removeItem('path');
+      history.push(path);
+    }
+  }, [history]);
 
   return (
     <div className="App">
-      <Router>
+       <Router history={history}>
         <Routes>
-        <Route path='/intro' element={<Intro />} />
-          <Route path='/disclaimer' element={<Disclaimer />} />
-          <Route path='/data' element={<Data />} />
-          <Route path='/schedule' element={<Schedule />} />
-          <Route path='/gschedule' element={<ScheduleGamified />} />
-          <Route path='/leaderboard' element={<Leaderboard />} />
-          <Route path='/settings' element={<Settings />} />
-          <Route path='/thankyou' element={<ThankYou />} />
-          <Route path='/404' element={<NotFoundPage />} />
-          <Route path="*" element={<NotFoundPage />} /> {/* Catch-all route */}
+          <Route path="/intro" element={<Intro />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/data" element={<Data />} />
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/gschedule" element={<ScheduleGamified />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/thankyou" element={<ThankYou />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </div>
