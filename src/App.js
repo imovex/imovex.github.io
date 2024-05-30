@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, BrowserRouter as Router, Routes, useRoutes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import Intro from './Intro';
 import Disclaimer from './Disclaimer';
@@ -9,7 +9,6 @@ import Schedule from './Schedule';
 import ScheduleGamified from './ScheduleGamified';
 import ThankYou from './ThankYou';
 import Leaderboard from './Leaderboard';
-import NotFoundPage from './NotFoundPage';
 import './App.css';
 
 function App() {
@@ -46,7 +45,7 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/thankyou" element={<ThankYou />} />
-          <Route path="*" element={<NotFoundPage />} />
+          {/* <Route path="*" element={<NotFoundPage />} /> */}
         </Routes>
       </Router>
     </div>
