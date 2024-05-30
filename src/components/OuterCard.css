@@ -1,7 +1,7 @@
 .outerCard {
     padding: 5px;
     margin-bottom: 5px;
-    border-color: #172E9A !important;
+    border-color: #051C59 !important;
     font-size: large;
     font-weight: normal;
     width: 28%;
@@ -29,6 +29,41 @@
 }
 
 .outerCard.Expired {
+    border-color: #ffb310 !important;
+    background-color: #F4F7FF !important;    
+}
+
+.outerCardGamified {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-color: #051C59 !important;
+    font-size: large;
+    font-weight: normal;
+    width: 60%;
+    .col {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .form-label {
+        margin: 0;
+    }
+    .taskTime {
+        font-weight: bold;
+    }
+}
+
+.outerCardGamified.Confirmed {
+    border-color: #7DF481 !important;
+    background-color: #F4F7FF !important;    
+}
+
+.outerCardGamified.Rejected {
+    border-color: #FF3333 !important;
+    background-color: #F4F7FF !important;   
+}
+
+.outerCardGamified.Expired {
     border-color: #ffb310 !important;
     background-color: #F4F7FF !important;    
 }

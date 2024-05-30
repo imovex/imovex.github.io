@@ -4,13 +4,26 @@ import './OuterCard.css';
 
 export function OuterCard( { taskName, taskTime, buttonStatus} )
 {
-    let cardClassName = buttonStatus === "confirmed"
-    ? "outerCard Confirmed"
-    : buttonStatus === "rejected"
-    ? "outerCard Rejected"
-    : buttonStatus === "expired"
-    ? "outerCard Expired"
-    : "outerCard";
+    const isGamified = (localStorage.getItem('gamification') === "true");
+    let cardClassName;
+
+    if (isGamified) {
+        cardClassName = buttonStatus === "confirmed"
+            ? "outerCardGamified Confirmed"
+            : buttonStatus === "rejected"
+            ? "outerCardGamified Rejected"
+            : buttonStatus === "expired"
+            ? "outerCardGamified Expired"
+            : "outerCardGamified";        
+    } else {
+        cardClassName = buttonStatus === "confirmed"
+            ? "outerCard Confirmed"
+            : buttonStatus === "rejected"
+            ? "outerCard Rejected"
+            : buttonStatus === "expired"
+            ? "outerCard Expired"
+            : "outerCard";
+    }
     
     return (
         <Card className={cardClassName}>
