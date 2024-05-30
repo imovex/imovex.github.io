@@ -3,12 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <title>Page Not Found</title>
-    <script type="text/javascript">
-        
-      var path = window.location.pathname;
-      localStorage.setItem('redirectPath', path);
-
-      window.location.replace('/index.html');
+    <script>
+        const path = window.location.pathname.slice(1);
+        localStorage.setItem('path', path);
+        window.location.href='../';
     </script>
   </head>
   <body>
