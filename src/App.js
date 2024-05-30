@@ -9,15 +9,20 @@ import Schedule from './Schedule';
 import ScheduleGamified from './ScheduleGamified';
 import ThankYou from './ThankYou';
 import Leaderboard from './Leaderboard';
-import NotFoundPage from './NotFoundPage';
 import './App.css';
 
-function App() {
-  const history = createBrowserHistory();
-
-  useEffect(() => {
+function App(){
+    const history = createBrowserHistory();
     const isFirstVisit = (localStorage.getItem('userId') === null);
     const isGamified = (localStorage.getItem('gamification') === 'true');
+
+    useEffect(() => {
+      const path = localStorage.getItem('path');
+      if (path) {
+        localStorage.removeItem('path');
+        history.push('/' + path);
+      }
+    }, [history]);
 
     if (isFirstVisit) {
       history.push('/intro');
@@ -27,30 +32,22 @@ function App() {
       history.push('/schedule');
     }
 
-    const path = localStorage.getItem('path');
-    if (path) {
-      localStorage.removeItem('path');
-      history.push(path);
-    }
-  }, [history]);
-
-  return (
-    <div className="App">
-       <Router history={history}>
-        <Routes>
-          <Route path="/intro" element={<Intro />} />
-          <Route path="/disclaimer" element={<Disclaimer />} />
-          <Route path="/data" element={<Data />} />
-          <Route path="/schedule" element={<Schedule />} />
-          <Route path="/gschedule" element={<ScheduleGamified />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/thankyou" element={<ThankYou />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </Router>
-    </div>
-  );
+    return (
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path="/intro" element={<Intro />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/data" element={<Data />} />
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/gschedule" element={<ScheduleGamified />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/thankyou" element={<ThankYou />} />
+          </Routes>
+        </Router>
+      </div>
+    );
 }
 
 export default App;
