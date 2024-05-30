@@ -34,7 +34,7 @@ function App(){
   
     useEffect(() => {
       redirectToCorrectPage();
-    }, [navigate]);
+    }, []);
 
     return (
       <div className="App">
