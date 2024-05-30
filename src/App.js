@@ -13,24 +13,25 @@ import './App.css';
 
 function App(){
     const history = createBrowserHistory();
-    const isFirstVisit = (localStorage.getItem('userId') === null);
-    const isGamified = (localStorage.getItem('gamification') === 'true');
 
     useEffect(() => {
       const path = localStorage.getItem('path');
       if (path) {
         localStorage.removeItem('path');
         history.push('/' + path);
+      } else {
+        const isFirstVisit = localStorage.getItem('userId') === null;
+        const isGamified = localStorage.getItem('gamification') === 'true';
+  
+        if (isFirstVisit) {
+          history.push('/intro');
+        } else if (isGamified) {
+          history.push('/gschedule');
+        } else {
+          history.push('/schedule');
+        }
       }
     }, [history]);
-
-    if (isFirstVisit) {
-      history.push('/intro');
-    } else if (isGamified) {
-      history.push('/gschedule');
-    } else {
-      history.push('/schedule');
-    }
 
     return (
       <div className="App">
