@@ -9,6 +9,7 @@ import Schedule from './Schedule';
 import ScheduleGamified from './ScheduleGamified';
 import ThankYou from './ThankYou';
 import Leaderboard from './Leaderboard';
+import NotFoundPage from './NotFoundPage';
 import './App.css';
 
 function App() {
@@ -45,7 +46,7 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/thankyou" element={<ThankYou />} />
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </div>
