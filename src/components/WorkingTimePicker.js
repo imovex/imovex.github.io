@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Col } from 'react-bootstrap';
 import { getUserData } from '../api';
 import './WorkingTimePicker.css';
+import './../Formular.css';
 
 export function WorkingTimePicker({ onValidationChange, onWorkingTimesChange }) {
     

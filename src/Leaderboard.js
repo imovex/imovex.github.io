@@ -2,7 +2,7 @@ import React, {useState, useEffect } from "react";
 import { Button, Modal, Form } from 'react-bootstrap';
 import './Leaderboard.css';
 import { useWorkingTimes } from "./components/WorkingTimesContext";
-import HeaderNavbarGamified from "./components/HeaderNavbarGamified.js";
+import HeaderNavbar from "./components/HeaderNavbar.js";
 import { getUserData } from './api';
 import { updateUser } from './api';
 
@@ -61,7 +61,7 @@ export default function Leaderboard() {
     
     return (
         <div>
-            <HeaderNavbarGamified/>
+            <HeaderNavbar/>
             <Form.Label className="info-label">Leaderboard in progress</Form.Label>
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body>

@@ -6,7 +6,7 @@ import { InnerCardStretch } from "./components/InnerCardStretch.js";
 import { InnerCardMove } from "./components/InnerCardMove.js";
 import { OuterCard } from "./components/OuterCard.js";
 import { useWorkingTimes } from "./components/WorkingTimesContext";
-import HeaderNavbarGamified from "./components/HeaderNavbarGamified.js";
+import HeaderNavbar from "./components/HeaderNavbar.js";
 import { getUserData } from './api';
 import { postLogData } from './api';
 
@@ -251,9 +251,9 @@ export default function ScheduleGamified() {
     };
 
     return (
-        <div>            
-            <HeaderNavbarGamified/>
-            <Row className="progressRow">                
+        <div>
+            <HeaderNavbar/>
+            <Row className="progressRow">
                 <Form.Label className="scheduleTitle">Today</Form.Label>
                 <Col className="progressCol">
                     <ProgressBar/>

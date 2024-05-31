@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Image } from 'react-bootstrap';
-import { Gear } from 'react-bootstrap-icons';
+import {Gear, Trophy} from 'react-bootstrap-icons';
 import './HeaderNavbar.css'
 
 export default function HeaderNavbar() {
+    const isGamified = localStorage.getItem('gamification') === 'true';
+
     return (
         <Navbar>
           <Nav>           
@@ -21,6 +23,16 @@ export default function HeaderNavbar() {
               </Link>
             </Nav.Link>
           </Nav>
+               {isGamified ?
+                   <Nav>
+                       <Nav.Link>
+                            <Link to="/leaderboard">
+                                <Trophy className="leaderboard-icon"/>
+                            </Link>
+                       </Nav.Link>
+                   </Nav>
+                   : undefined
+               }
         </Navbar>
     );
 }

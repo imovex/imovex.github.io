@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { Col, Row, Form, Button, Image } from 'react-bootstrap';
 import './Data.css';
+import './Formular.css';
+import './Header.css';
 import { WorkingTimePicker } from "./components/WorkingTimePicker";
 import { postUserData } from './api';
 import { getPublicKey } from './api';
@@ -170,7 +172,7 @@ export default function Data() {
                     <WorkingTimePicker onWorkingTimesChange={handleWorkingTimesChange} onValidationChange={handleValidationChange}/>
                 </Row>
                 {(isValid && isFormValid) ? (
-                    <Link to="/thankyou">
+                    <Link to="/schedule">
                         <Button onClick={handlePostUserData}>Let's go!</Button>
                     </Link>
                     ) : (
