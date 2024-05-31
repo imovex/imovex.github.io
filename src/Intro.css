@@ -9,15 +9,25 @@
     align-items: center;
     .welcome {
         margin-top: 2%;
-        width: 18%;
+        width: 260px;
+        max-width: 100%;
+        margin-bottom: 20px;
     }
     
     .info-text {
-        margin-block: 2%;
+        margin: 20px 2%;
         font-size: larger;
         font-style: italic;
         text-align: center;
         width: 20%;
+
+        @media only screen and (max-width: 1160px) {
+            width: 60%;
+        }
+
+        @media only screen and (max-width: 500px) {
+            width: 90%;
+        }
     }
     .button-col {
         display: flex;

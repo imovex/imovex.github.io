@@ -23,8 +23,13 @@
         align-items: center;
         font-weight: normal;
         font-style: italic;
-    
+        width: 90%;
+
+        .workingTimeCol {
+            width: 100%;
+        }
     }
+
     .btn {            
         background-color: #FFFFFF;
         display: flex;

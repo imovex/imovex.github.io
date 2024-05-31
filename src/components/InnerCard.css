@@ -1,10 +1,19 @@
 .innerCard {
     width: 30%;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
     border-color: #FF3333 !important;
     border-width: 1.5px !important;
     border-radius: 15px !important;
     font-size: large;
+    box-shadow: 0 0 7px #BBBBBB;
+
+    @media only screen and (max-width: 1300px) {
+        width: 60%;
+    }
+
+    @media only screen and (max-width: 650px) {
+        width: 90%;
+    }
 
     .form-label {
         margin: 0;
@@ -105,12 +114,20 @@
 }
 
 .innerCardGamified {
-    width: 60%;
-    margin-bottom: 5px;
-    border-color: #FF3333 !important;
+    width: 30%;
+    margin-bottom: 12px;
     border-width: 1.5px !important;
     border-radius: 15px !important;
     font-size: large;
+    box-shadow: 0 0 7px #BBBBBB;
+
+    @media only screen and (max-width: 1300px) {
+        width: 60%;
+    }
+
+    @media only screen and (max-width: 650px) {
+        width: 90%;
+    }
 
     .form-label {
         margin: 0;

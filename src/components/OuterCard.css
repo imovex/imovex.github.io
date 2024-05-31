@@ -1,10 +1,12 @@
 .outerCard {
     padding: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
     border-color: #051C59 !important;
     font-size: large;
     font-weight: normal;
     width: 28%;
+    box-shadow: 0 0 7px #DDDDDD;
+
     .col {
         display: flex;
         justify-content: space-between;
@@ -15,6 +17,14 @@
     }
     .taskTime {
         font-weight: bold;
+    }
+
+    @media only screen and (max-width: 1300px) {
+        width: 60%;
+    }
+
+    @media only screen and (max-width: 650px) {
+        width: 90%;
     }
 }
 
@@ -30,16 +40,18 @@
 
 .outerCard.Expired {
     border-color: #ffb310 !important;
-    background-color: #F4F7FF !important;    
+    background-color: #F4F7FF !important;
 }
 
 .outerCardGamified {
     padding: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
     border-color: #051C59 !important;
     font-size: large;
     font-weight: normal;
-    width: 60%;
+    width: 30%;
+    box-shadow: 0 0 4px #DDDDDD;
+
     .col {
         display: flex;
         justify-content: space-between;
@@ -50,6 +62,14 @@
     }
     .taskTime {
         font-weight: bold;
+    }
+
+    @media only screen and (max-width: 1300px) {
+        width: 60%;
+    }
+
+    @media only screen and (max-width: 650px) {
+        width: 90%;
     }
 }
 
@@ -65,5 +85,5 @@
 
 .outerCardGamified.Expired {
     border-color: #ffb310 !important;
-    background-color: #F4F7FF !important;    
+    background-color: #F4F7FF !important;
 }
