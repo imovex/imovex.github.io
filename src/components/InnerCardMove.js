@@ -5,16 +5,8 @@ import { BellFill } from "react-bootstrap-icons";
 
 export function InnerCardMove({ taskTime, onConfirm, onReject }) 
 {
-    const isGamified = (localStorage.getItem('gamification') === "true");
-    let cardClassName;
-    if (isGamified) {
-        cardClassName = "innerCardGamified standUpHeight";
-    } else {
-        cardClassName = "innerCard standUpHeight";
-    }
-
     return (
-    <Card className={cardClassName}> {/* Geöffnete Card*/}
+    <Card className="innerCard standUpHeight"> {/* Geöffnete Card*/}
         <Row className="rowInnerCard">
             <Col className="headerCol">
                 <BellFill className="alertIcon"/>

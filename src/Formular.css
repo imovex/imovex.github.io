@@ -1,0 +1,29 @@
+.form-label {
+    font-size: medium;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 1%;
+
+    @media only screen and (max-width: 650px) {
+        &:first-of-type {
+            margin-top: 20px;
+        }
+    }
+}
+
+.form-control {
+    border-color: #051C59;
+    text-align: center;
+    font-size: medium;
+    width: 65%;
+
+    @media only screen and (max-width: 650px) {
+        width: 90%;
+    }
+}
+
+.form-text {
+    color: #FF3333;
+    font-size: small;
+    text-align: center;
+}

@@ -28,62 +28,17 @@
     }
 }
 
-.outerCard.Confirmed {
+.outerCard.confirmed {
     border-color: #7DF481 !important;
     background-color: #F4F7FF !important;    
 }
 
-.outerCard.Rejected {
+.outerCard.rejected {
     border-color: #FF3333 !important;
     background-color: #F4F7FF !important;   
 }
 
-.outerCard.Expired {
-    border-color: #ffb310 !important;
-    background-color: #F4F7FF !important;
-}
-
-.outerCardGamified {
-    padding: 5px;
-    margin-bottom: 12px;
-    border-color: #051C59 !important;
-    font-size: large;
-    font-weight: normal;
-    width: 30%;
-    box-shadow: 0 0 4px #DDDDDD;
-
-    .col {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .form-label {
-        margin: 0;
-    }
-    .taskTime {
-        font-weight: bold;
-    }
-
-    @media only screen and (max-width: 1300px) {
-        width: 60%;
-    }
-
-    @media only screen and (max-width: 650px) {
-        width: 90%;
-    }
-}
-
-.outerCardGamified.Confirmed {
-    border-color: #7DF481 !important;
-    background-color: #F4F7FF !important;    
-}
-
-.outerCardGamified.Rejected {
-    border-color: #FF3333 !important;
-    background-color: #F4F7FF !important;   
-}
-
-.outerCardGamified.Expired {
+.outerCard.expired {
     border-color: #ffb310 !important;
     background-color: #F4F7FF !important;
 }

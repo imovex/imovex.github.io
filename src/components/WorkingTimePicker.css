@@ -1,38 +1,14 @@
-
-.workingTimeCol{
+.workingTimeCol {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
-    
-    .form-label {
-        font-size: medium;
-        font-style: italic;
-        margin-top: 1%;
 
-        @media only screen and (max-width: 650px) {
-            &:first-of-type {
-                margin-top: 20px;
-            }
-        }
-    }
-
-    .form-control {
-        border-color: #051C59;
-        text-align: center;
-        font-size: medium;
-        width: 65%;
-
-        @media only screen and (max-width: 650px) {
-            width: 90%;
-        }
-    }
     .invalid-feedback {
         text-align: center;
     }
-    
-    .form-text {
-        color: #FF3333;
-        font-size: small;
+
+    &.col {
+       padding: 0 50px;
     }
 }

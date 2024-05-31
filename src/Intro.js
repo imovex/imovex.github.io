@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Col, Row, Form, Image, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import './Intro.css';
+import './Header.css';
 
 function Intro() {
     const [displayText, setDisplayText] = useState("Help yourself to integrate more physical activity into your working day to keep your health in mind");
@@ -19,7 +20,7 @@ function Intro() {
             {step === 1 ? (
                 <Row className="intro-row">
                     <Image className="welcome" src={`${process.env.PUBLIC_URL}/Welcome_iMOVEx.png`}/>
-                    <Form.Label className="info-text">{displayText}</Form.Label>
+                    <p className="info-text">{displayText}</p>
                     <Col className="button-col">
                         <Button className="ok-button" onClick={handleButtonClick}>Understood</Button>
                     </Col>
@@ -27,7 +28,7 @@ function Intro() {
             ) : step === 2 ? (
                 <Row className="intro-row">
                     <Image className="welcome" src={`${process.env.PUBLIC_URL}/Welcome_iMOVEx.png`}/>
-                    <Form.Label className="info-text">{displayText}</Form.Label>
+                    <p className="info-text">{displayText}</p>
                     <Link to="/disclaimer"><Button className="ok-button" onClick={handleButtonClick}>Get Started</Button></Link>
                 </Row>
             ) : null}

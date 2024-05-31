@@ -6,7 +6,6 @@ import Data from './Data';
 import Settings from './Settings';
 import Schedule from './Schedule';
 import ScheduleGamified from './ScheduleGamified';
-import ThankYou from './ThankYou';
 import Leaderboard from './Leaderboard';
 import './App.css';
 
@@ -46,7 +45,6 @@ function App(){
           <Route path="/gschedule" element={<ScheduleGamified />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/thankyou" element={<ThankYou />} />
           {/* <Route path="/*" element={<Navigate to="/" />} /> */}
         </Routes>
       </div>

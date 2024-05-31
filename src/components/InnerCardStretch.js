@@ -5,14 +5,6 @@ import { BellFill } from "react-bootstrap-icons";
 
 export function InnerCardStretch({ taskTime, onConfirm, onReject }) 
 {
-    const isGamified = (localStorage.getItem('gamification') === "true");
-    let cardClassName;
-
-    if (isGamified) {
-        cardClassName = "innerCardGamified";
-    } else {
-        cardClassName = "innerCard";
-    }
     const [checkboxes, setCheckboxes] = useState([false, false, false]); 
     const [imageIndexes, setImageIndexes] = useState([]);
 
@@ -42,7 +34,7 @@ export function InnerCardStretch({ taskTime, onConfirm, onReject })
     };
 
     return (
-    <Card className={cardClassName}> {/* Geöffnete Card*/}
+    <Card className="innerCard"> {/* Geöffnete Card*/}
         <Row className="rowInnerCard">
             <Col className="headerCol">
                 <BellFill className="alertIcon"/>

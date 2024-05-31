@@ -6,7 +6,6 @@ import './Settings.css';
 import { WorkingTimePicker } from "./components/WorkingTimePicker.js";
 import { useWorkingTimes } from "./components/WorkingTimesContext";
 import HeaderNavbar from './components/HeaderNavbar';
-import HeaderNavbarGamified from './components/HeaderNavbarGamified';
 import { updateUser } from './api';
 import { getUserData } from './api';
 
@@ -79,7 +78,7 @@ export default function Settings() {
 
     return(
         <div>        
-            {(localStorage.getItem('gamification') === "true") ? <HeaderNavbarGamified /> : <HeaderNavbar />}
+            <HeaderNavbar />
             <Col className="settingsCol">
                 <Col className="titleCol">
                     <Form.Label>Settings</Form.Label>
