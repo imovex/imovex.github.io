@@ -44,6 +44,11 @@
         background-color: #DFE6F0 !important;
         color: #2d2d2d !important;
     }
+    .btn:disabled {
+        border-color: #2d2d2d !important;
+        background-color: #F4F7FF !important;        
+        color: #666666 !important;
+    }
     a {
         display: flex;
         justify-content: center;

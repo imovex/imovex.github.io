@@ -9,13 +9,14 @@ import { getPublicKey } from './api';
 
 export default function Data() { 
     const { workingTimes, setWorkingTimes } = useWorkingTimes();
-    const isGamified = (localStorage.getItem("gamification") === 'true');
+    // const isGamified = (localStorage.getItem("gamification") === 'true');
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
+        
         if (((age <= 80) && (age >= 15)) && sex && workingTimes.startTime && workingTimes.endTime && workingTimes.breakStartTime && workingTimes.breakEndTime) {
             setIsValid(true);
         } else {
@@ -120,6 +121,10 @@ export default function Data() {
         }
     };
 
+    const handleValidationChange = (isValid) => {
+        setIsValid(isValid);
+    };
+
     return (
         <div>
             <Col className="input-col">
@@ -152,7 +157,7 @@ export default function Data() {
                             <option>No answer</option>
                         </Form.Control> 
                     </Col>
-                    <WorkingTimePicker/>
+                    <WorkingTimePicker onValidationChange={handleValidationChange}/>
                 </Row>
                 {isValid ? (
                     <Link to="/thankyou">

@@ -1,10 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Col } from 'react-bootstrap';
-import { useWorkingTimes } from "./WorkingTimesContext";
+import { getUserData } from '../api';
 import './WorkingTimePicker.css';
 
-export function WorkingTimePicker() {      
-    const { workingTimes, setWorkingTimes } = useWorkingTimes();
+export function WorkingTimePicker({ onValidationChange }) {
+    const [workingTimes, setWorkingTimes] = useState({
+        startTime: "",
+        breakStartTime: "",
+        breakEndTime: "",
+        endTime: ""
+    });
+    
+    const [error, setError] = useState({
+        startTime: false,
+        breakStartTime: false,
+        breakEndTime: false,
+        endTime: false
+    });
+
+    const [errorMessage, setErrorMessage] = useState({
+        startTime: '',
+        breakStartTime: '',
+        breakEndTime: '',
+        endTime: ''
+    });
+    
+    useEffect(() => {
+        async function fetchWorkingTimes() {
+            try {
+                const response = await getUserData();
+                const dataBaseWorkingTimes = {
+                    startTime: response.startTime,
+                    breakStartTime: response.startBreakTime,
+                    breakEndTime: response.endBreakTime,
+                    endTime: response.endTime
+                };
+                setWorkingTimes(dataBaseWorkingTimes);
+
+                const savedDate = new Date(localStorage.getItem('lastDate'));
+                const currentDate = new Date();
+                if (savedDate.getDate() === currentDate.getDate() && savedDate.getMonth() === currentDate.getMonth() && savedDate.getFullYear() === currentDate.getFullYear()) {
+                    // Arbeitszeiten nur in LS setzen, wenn neuer Tag, damit Schedule nicht manipulierbar
+                    return;
+                }
+            
+                localStorage.setItem('workingTimes', workingTimes);
+            
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        }
+        // Nur aus DB holen, wenn überhaupt User vorhanden
+        if (localStorage.getItem('userId') !== null) {
+            fetchWorkingTimes();
+        }
+    }, []);
     
     const generateOptions = () => {
         let options = [];
@@ -18,13 +68,6 @@ export function WorkingTimePicker() {
         return options;
     };
 
-    const [errorMessage, setErrorMessage] = useState({
-        startTime: "",
-        breakStartTime: "",
-        breakEndTime: "",
-        endTime: ""
-    });
-
     function timeStringToDate(timeString) {
         const [hours, minutes] = timeString.split(':');
         const date = new Date();
@@ -32,88 +75,116 @@ export function WorkingTimePicker() {
         return date;
     };
 
-    const handleStartTimeChange = (e) => {
-        const newStartTime = e.target.value;
-        if ((timeStringToDate(workingTimes.breakStartTime) - timeStringToDate(newStartTime)) < 3600000) {
-            setErrorMessage({ ...errorMessage, startTime: "There should be at least one hour between your start time and the start time of your break." });
-        } else if (newStartTime < workingTimes.breakStartTime && workingTimes.breakStartTime < workingTimes.breakEndTime && workingTimes.breakEndTime < workingTimes.endTime) {
-            const newWorkingTimes = { ...workingTimes, startTime: newStartTime };
-            setWorkingTimes(newWorkingTimes);
-            setErrorMessage({ ...errorMessage, startTime: "" });
-        }else {
-            setErrorMessage({ ...errorMessage, startTime: "Your start time needs to be earlier than the start time of your break." });
-        }        
+    const handleTimeChange = (event) => {
+        const { name, value } = event.target;
+        setWorkingTimes({ ...workingTimes, [name]: value });
     };
 
-    const handleBreakStartTimeChange = (e) => {
-        const newBreakStartTime = e.target.value;
-        if ((timeStringToDate(newBreakStartTime) - timeStringToDate(workingTimes.startTime)) < 3600000) {
-            setErrorMessage({ ...errorMessage, breakStartTime: "There should be at least one hour between your start time and the start time of your break." });
-        } else if (workingTimes.startTime < newBreakStartTime && newBreakStartTime < workingTimes.breakEndTime && workingTimes.breakEndTime < workingTimes.endTime) {
-            const newWorkingTimes = { ...workingTimes, breakStartTime: newBreakStartTime };
-            setWorkingTimes(newWorkingTimes);
-            setErrorMessage({ ...errorMessage, breakStartTime: "" });
-        } else {
-            setErrorMessage({ ...errorMessage, breakStartTime: "The start time of your break needs to be earlier than the end time of your break." });
-        }
-    };
-    
-    const handleBreakEndTimeChange = (e) => {
-        const newBreakEndTime = e.target.value;
-        if ((timeStringToDate(workingTimes.endTime) - timeStringToDate(newBreakEndTime)) < 3600000) {
-            setErrorMessage({ ...errorMessage, breakEndTime: "There should be at least one hour between the end time of your break and your end time." });
-        } else if (workingTimes.startTime < workingTimes.breakStartTime && workingTimes.breakStartTime < newBreakEndTime && newBreakEndTime < workingTimes.endTime) {
-            const newWorkingTimes = { ...workingTimes, breakEndTime: newBreakEndTime };
-            setWorkingTimes(newWorkingTimes);
-            setErrorMessage({ ...errorMessage, breakEndTime: "" });
-        } else {
-            setErrorMessage({ ...errorMessage, breakEndTime: "The end time of your break needs to be earlier than the end time." });
-        }
-    };
-    
-    const handleEndTimeChange = (e) => {
-        const newEndTime = e.target.value;
-        if ((timeStringToDate(newEndTime) - timeStringToDate(workingTimes.breakEndTime)) < 3600000) {
-            setErrorMessage({ ...errorMessage, endTime: "There should be at least one hour between the end time of your break and your end time." });
-        } else if (workingTimes.startTime < workingTimes.breakStartTime && workingTimes.breakStartTime < workingTimes.breakEndTime && workingTimes.breakEndTime < newEndTime) {
-            const newWorkingTimes = { ...workingTimes, endTime: newEndTime };
-            setWorkingTimes(newWorkingTimes);
-            setErrorMessage({ ...errorMessage, endTime: "" });
-        } else {
-            setErrorMessage({ ...errorMessage, endTime: "Your end time needs to be later than the end time of your break." });
-        }
-    };
+    useEffect(() => {
+        const { startTime, breakStartTime, breakEndTime, endTime } = workingTimes;
+        // Validierungslogik
+        // Alle Zeiten gesetzt?
+        if (startTime && breakStartTime && breakEndTime && endTime) {
+            const start = timeStringToDate(startTime).getTime();
+            const breakStart = timeStringToDate(breakStartTime).getTime();
+            const breakEnd = timeStringToDate(breakEndTime).getTime();
+            const end = timeStringToDate(endTime).getTime();
+            
+            if (!(start < breakStart && breakStart < breakEnd && breakEnd < end)) {          
+                setErrorMessage({
+                    startTime: 'Your working times are in the wrong order, they need to be chronologically increasing',
+                    breakStartTime: '',
+                    breakEndTime: '',
+                    endTime: ''
+                });
+                setError({
+                    startTime: true,
+                    breakStartTime: true,
+                    breakEndTime: true,
+                    endTime: true
+                });
+            } else if (!((breakStart - start) >= 3600000)) {
+                setErrorMessage({
+                    startTime: 'There needs to be at least one hour between start time and break start time',
+                    breakStartTime: 'There needs to be at least one hour between start time and break start time',
+                    breakEndTime: '',
+                    endTime: ''
+                });
+                setError({
+                    startTime: true,
+                    breakStartTime: true,
+                    breakEndTime: false,
+                    endTime: false
+                });
+            } else if (!((end - breakEnd) >= 3600000)) {
+                setErrorMessage({
+                    startTime: '',
+                    breakStartTime: '',
+                    breakEndTime: 'There needs to be at least one hour between end time and break end time',
+                    endTime: 'There needs to be at least one hour between end time and break end time'
+                });
+                setError({
+                    startTime: false,
+                    breakStartTime: false,
+                    breakEndTime: true,
+                    endTime: true
+                });
+            } else {
+                setErrorMessage({
+                    startTime: '',
+                    breakStartTime: '',
+                    breakEndTime: '',
+                    endTime: ''
+                });
+                setError({
+                    startTime: false,
+                    breakStartTime: false,
+                    breakEndTime: false,
+                    endTime: false
+                });
+            }
+            
+        } 
+        
+        const isInvalid = Object.values(error).some(value => value);
+        onValidationChange(!isInvalid);
+
+    }, [workingTimes]);
 
     return (
         <Col className="workingTimeCol">
             <Form.Label>I start working at</Form.Label>
-            <Form.Control as="select" value={workingTimes.startTime} onChange={handleStartTimeChange}>
+            <Form.Control name="startTime" as="select" value={workingTimes.startTime} onChange={handleTimeChange} isInvalid={error.startTime}>
+                <option disabled value="">Select your start time</option>
                 {generateOptions().map((time, index) => (
                     <option key={index}>{time}</option>
                 ))}
             </Form.Control>
-            {errorMessage.startTime && <Form.Text className="error">{errorMessage.startTime}</Form.Text>}
+            {error.startTime && <Form.Control.Feedback type="invalid">{errorMessage.startTime}</Form.Control.Feedback>}
             <Form.Label>I take a break from</Form.Label>
-            <Form.Control as="select" value={workingTimes.breakStartTime} onChange={handleBreakStartTimeChange}>
+            <Form.Control name="breakStartTime" as="select" value={workingTimes.breakStartTime} onChange={handleTimeChange} isInvalid={error.breakStartTime}>
+                <option disabled value="">Select your break start time</option>
                 {generateOptions().map((time, index) => (
                     <option key={index}>{time}</option>
                 ))}                
             </Form.Control>
-            {errorMessage.breakStartTime && <Form.Text className="error">{errorMessage.breakStartTime}</Form.Text>}
+            {error.breakStartTime && <Form.Control.Feedback type="invalid">{errorMessage.breakStartTime}</Form.Control.Feedback>}
             <Form.Label>to</Form.Label>
-            <Form.Control as="select" value={workingTimes.breakEndTime} onChange={handleBreakEndTimeChange}>
+            <Form.Control name="breakEndTime" as="select" value={workingTimes.breakEndTime} onChange={handleTimeChange} isInvalid={error.breakEndTime}>
+                <option disabled value="">Select your break end time</option>
                 {generateOptions().map((time, index) => (
                     <option key={index}>{time}</option>
                 ))}                
             </Form.Control>
-            {errorMessage.breakEndTime && <Form.Text className="error">{errorMessage.breakEndTime}</Form.Text>}
+            {error.breakEndTime && <Form.Control.Feedback type="invalid">{errorMessage.breakEndTime}</Form.Control.Feedback>}
             <Form.Label>I go home at</Form.Label>
-            <Form.Control as="select" value={workingTimes.endTime} onChange={handleEndTimeChange}>
+            <Form.Control name="endTime" as="select" value={workingTimes.endTime} onChange={handleTimeChange} isInvalid={error.endTime}>
+                <option disabled value="">Select your end time</option>
                 {generateOptions().map((time, index) => (
                     <option key={index}>{time}</option>
                 ))}
             </Form.Control>
-            {errorMessage.endTime && <Form.Text className="error">{errorMessage.endTime}</Form.Text>}
+            {error.endTime && <Form.Control.Feedback type="invalid">{errorMessage.endTime}</Form.Control.Feedback>}
         </Col>
     );
 }

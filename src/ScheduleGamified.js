@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef } from "react";
-import { Col, Form, ProgressBar } from 'react-bootstrap';
+import { Row, Col, Form, ProgressBar } from 'react-bootstrap';
 import './ScheduleGamified.css';
 import { InnerCardStandUp } from "./components/InnerCardStandUp.js";
 import { InnerCardStretch } from "./components/InnerCardStretch.js";
@@ -23,35 +23,33 @@ export default function ScheduleGamified() {
     //         { name: 'Stand up', time: '17:49', buttonStatus: null },
     // ];
 
-    useEffect(() => {
-        async function fetchWorkingTimes() {
-            try {
-                const response = await getUserData();
-                
-                const savedDate = new Date(localStorage.getItem('lastDate'));
-                const currentDate = new Date();
-                if (savedDate.getDate() === currentDate.getDate() && savedDate.getMonth() === currentDate.getMonth() && savedDate.getFullYear() === currentDate.getFullYear()) {
-                    // Arbeitszeiten nur aus DB setzen, wenn neuer Tag, damit Schedule nicht manipulierbar
-                    return;
-                }
-
-                const dataBaseWorkingTimes = {
-                    startTime: response.startTime,
-                    breakStartTime: response.startBreakTime,
-                    breakEndTime: response.endBreakTime,
-                    endTime: response.endTime
-                };
+    async function fetchWorkingTimes() {
+        try {
+            const response = await getUserData();
             
-                setWorkingTimes(dataBaseWorkingTimes);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
+            const savedDate = new Date(localStorage.getItem('lastDate'));
+            const currentDate = new Date();
+            if (savedDate.getDate() === currentDate.getDate() && savedDate.getMonth() === currentDate.getMonth() && savedDate.getFullYear() === currentDate.getFullYear()) {
+                // Arbeitszeiten nur aus DB setzen, wenn neuer Tag, damit Schedule nicht manipulierbar
+                return;
             }
-        }
 
-        if (localStorage.getItem('userId') !== null) {
-            fetchWorkingTimes();
+            const dataBaseWorkingTimes = {
+                startTime: response.startTime,
+                breakStartTime: response.startBreakTime,
+                breakEndTime: response.endBreakTime,
+                endTime: response.endTime
+            };
+        
+            setWorkingTimes(dataBaseWorkingTimes);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
         }
-    }, []);
+    }
+
+    if (localStorage.getItem('userId') !== null) {
+        fetchWorkingTimes();
+    }
     
     const initialSchedule = [];
 
@@ -160,6 +158,20 @@ export default function ScheduleGamified() {
         startTimerNextEvent();
     }, [currentEvent]);
 
+    useEffect(() => {
+        function calculateProgress() {
+            const totalTasks = schedule.current.length;
+            const completedTasks = schedule.current.filter(task => task.buttonStatus === 'confirmed').length;
+            const progressPercentage = (completedTasks / totalTasks) * 100;
+            return progressPercentage;
+        }
+
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) {
+            progressBar.style.height = `${calculateProgress()}%`;
+        }
+    }, [schedule]);
+
     const handleTimeoutExpired = async () => {
         // if (nextEvent < schedule.current.length){
         //     if ('serviceWorker' in navigator) {
@@ -239,55 +251,57 @@ export default function ScheduleGamified() {
     };
 
     return (
-        <div>
+        <div>            
             <HeaderNavbarGamified/>
-            {/* <Col className="progressCol">
-                <ProgressBar/>
-            </Col> */}
-            <Col className="scheduleCol">
+            <Row className="progressRow">                
                 <Form.Label className="scheduleTitle">Today</Form.Label>
-                {schedule.current.map((task, index) => {
-                    let InnerCardComponent;
-                    switch (task.name) {
-                        case 'Stand up':
-                            InnerCardComponent = InnerCardStandUp;
-                            break;
-                        case 'Stretch':
-                            InnerCardComponent = InnerCardStretch;
-                            break;
-                        case 'Move':
-                            InnerCardComponent = InnerCardMove;
-                            break;
-                        default:
-                            // Kein passender Task gefunden
-                            InnerCardComponent = null;
-                            break;
-                    }
+                <Col className="progressCol">
+                    <ProgressBar/>
+                </Col>
+                <Col className="scheduleColGamified">
+                    {schedule.current.map((task, index) => {
+                        let InnerCardComponent;
+                        switch (task.name) {
+                            case 'Stand up':
+                                InnerCardComponent = InnerCardStandUp;
+                                break;
+                            case 'Stretch':
+                                InnerCardComponent = InnerCardStretch;
+                                break;
+                            case 'Move':
+                                InnerCardComponent = InnerCardMove;
+                                break;
+                            default:
+                                // Kein passender Task gefunden
+                                InnerCardComponent = null;
+                                break;
+                        }
 
-                    return (
-                        <React.Fragment key={index}>
-                            {InnerCardComponent ? (
-                                index === currentEvent ? (
-                                    <React.Fragment>
-                                        {schedule.current[currentEvent].buttonStatus === null ? (
-                                            <InnerCardComponent 
-                                                taskTime={task.time}
-                                                onConfirm={() => handleConfirm(task.name)}
-                                                onReject={() => handleReject(task.name)}
-                                            />
-                                        ) : (
-                                            <OuterCard taskName={task.name} taskTime={task.time} buttonStatus={task.buttonStatus} />
-                                        )}
-                                    </React.Fragment>
-                                ) : (
-                                    <OuterCard taskName={task.name} taskTime={task.time} buttonStatus={task.buttonStatus} />
-                                )
-                            ) : null}
-                        </React.Fragment>
-                    );
-                })}
-            </Col>
-        </div>
+                        return (
+                            <React.Fragment key={index}>
+                                {InnerCardComponent ? (
+                                    index === currentEvent ? (
+                                        <React.Fragment>
+                                            {schedule.current[currentEvent].buttonStatus === null ? (
+                                                <InnerCardComponent 
+                                                    taskTime={task.time}
+                                                    onConfirm={() => handleConfirm(task.name)}
+                                                    onReject={() => handleReject(task.name)}
+                                                />
+                                            ) : (
+                                                <OuterCard taskName={task.name} taskTime={task.time} buttonStatus={task.buttonStatus} />
+                                            )}
+                                        </React.Fragment>
+                                    ) : (
+                                        <OuterCard taskName={task.name} taskTime={task.time} buttonStatus={task.buttonStatus} />
+                                    )
+                                ) : null}
+                            </React.Fragment>
+                        );
+                    })}
+                </Col>
+            </Row>
+        </div>  
     );
 }
 

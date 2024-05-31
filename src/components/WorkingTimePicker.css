@@ -16,6 +16,10 @@
         text-align: center;
         font-size: medium;
         width: 65%;
+        
+    }
+    .invalid-feedback {
+        text-align: center;
     }
     .form-text {
         color: #FF3333;

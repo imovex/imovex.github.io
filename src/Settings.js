@@ -15,7 +15,8 @@ export default function Settings() {
     const [showNotification, setShowNotification] = useState(false);
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState('');    
+    const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
         async function fetchUserData() {
@@ -67,6 +68,9 @@ export default function Settings() {
             setShowNotification(false);
         }, 5000);
     };
+    const handleValidationChange = (isValid) => {
+        setIsValid(isValid);
+    };
 
     return(
         <div>        
@@ -78,10 +82,14 @@ export default function Settings() {
                 </Col>                 
                 <Form.Label className="settingsSubtitle">Adjust your working times:</Form.Label>
                 <Col className="inputCol">
-                    <WorkingTimePicker/>
-                    {/* <Link to="/schedule"> */}
+                    <WorkingTimePicker onValidationChange={handleValidationChange}/>
+                    {isValid ? (
+                    <Link to="/thankyou">                        
                         <Button onClick={handleSave} style={{ borderColor: "#7DF481"}}>Save</Button>
-                    {/* </Link> */}
+                    </Link>
+                    ) : (
+                        <Button disabled>Save</Button>
+                    )}
                 </Col>                
             </Col>
             <Modal show={showNotification} onHide={() => setShowNotification(false)} centered>
