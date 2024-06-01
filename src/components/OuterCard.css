@@ -42,3 +42,7 @@
     border-color: #bfc3c7 !important;
     color: #aeb2b6;
 }
+
+.outerCard.highlight {
+    background-color: #cceecc !important;
+}
