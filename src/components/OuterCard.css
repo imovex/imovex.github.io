@@ -30,15 +30,15 @@
 
 .outerCard.confirmed {
     border-color: #7DF481 !important;
-    background-color: #F4F7FF !important;    
+    background-color: #cceecc !important;
 }
 
 .outerCard.rejected {
     border-color: #FF3333 !important;
-    background-color: #F4F7FF !important;   
+    background-color: #fac7c7 !important;
 }
 
 .outerCard.expired {
-    border-color: #ffb310 !important;
-    background-color: #F4F7FF !important;
+    border-color: #bfc3c7 !important;
+    color: #aeb2b6;
 }

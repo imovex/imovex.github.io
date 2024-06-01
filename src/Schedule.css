@@ -8,3 +8,30 @@
         font-size: larger;
     }
 }
+
+.progressContainer {
+    width: 80%;
+    display: flex;
+    align-items: end;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 40px;
+    height: 40px;
+
+    div {
+        font-weight: normal;
+    }
+
+    .progress {
+        box-shadow: 0 0 7px #DDDDDD;
+        border-radius: 1em;
+        width: 100%;
+        border: 1px solid #051C59 !important;
+        background-color: #FFFFFF !important;
+    }
+
+    .progress-bar {
+        height: 36px;
+        background-color: #7DF481 !important;
+    }
+}

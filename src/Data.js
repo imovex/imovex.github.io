@@ -70,12 +70,13 @@ export default function Data() {
             sex: formattedSex,
         };
         try {
+            localStorage.setItem('workingTimes',JSON.stringify(workingTimes));
+
             const response = await postUserData(userData);
 
             // Speichern im Local Storage
             localStorage.setItem('userId', response.userId);
-            localStorage.setItem('gamification', response.gamification);        
-            localStorage.setItem('workingTimes',JSON.stringify(workingTimes));
+            localStorage.setItem('gamification', response.gamification);
 
             // Push-Benachrichtigungen zugelassen?
             if (Notification.permission !== 'granted') {
