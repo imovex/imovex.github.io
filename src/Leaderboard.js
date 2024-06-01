@@ -93,6 +93,7 @@ export default function Leaderboard() {
 
     function getLeaderboard () {
         const userId = localStorage.getItem('userId');
+
         return <div className="leaderboard">
             <h4>Leaderboard</h4>
             <p>Current Top Ten Performer</p>
@@ -105,10 +106,12 @@ export default function Leaderboard() {
                     />
                 )
             }
-            <p>
-                You ({leaderboard.find((user) => user.userId === userId).userName})
-                have {leaderboard.find((user) => user.userId === userId).points} points.
-            </p>
+            {
+                userId ? <p>
+                    You ({leaderboard.find((user) => user.userId === userId).userName})
+                    have {leaderboard.find((user) => user.userId === userId).points} points.
+                </p> : undefined
+            }
         </div>
     }
 
