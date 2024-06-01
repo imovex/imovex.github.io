@@ -12,6 +12,11 @@ export default function Leaderboard() {
     const [sex, setSex] = useState('');    
     const [username, setUsername] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [currentUser, setCurrentUser] = useState({
+        userName: '',
+        userId: '',
+        points: 0
+    })
     const [leaderboard] = useState(
         [
             {
@@ -68,6 +73,18 @@ export default function Leaderboard() {
     
     const [errorMessage, setErrorMessage] = useState('');
 
+    useEffect(() => {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            return
+        }
+
+        const userFound = leaderboard.find((user) => user.userId === userId)
+        if (userFound && !userIsEmpty(userFound)) {
+            setCurrentUser(userFound)
+        }
+    }, [username]);
+
     const handleUsernameSubmit = async () => {
         const userData = {
             gamification: (localStorage.getItem('gamification').toLowerCase() === "true"),
@@ -91,6 +108,10 @@ export default function Leaderboard() {
         }
     };
 
+    function userIsEmpty(user) {
+        return user.userId === '' && user.userName === ''
+    }
+
     function getLeaderboard () {
         const userId = localStorage.getItem('userId');
 
@@ -107,9 +128,9 @@ export default function Leaderboard() {
                 )
             }
             {
-                userId ? <p>
-                    You ({leaderboard.find((user) => user.userId === userId).userName})
-                    have {leaderboard.find((user) => user.userId === userId).points} points.
+                (currentUser && !userIsEmpty(currentUser)) ? <p>
+                    You ({currentUser.userName})
+                    have {currentUser.points} points.
                 </p> : undefined
             }
         </div>
