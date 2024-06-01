@@ -3,8 +3,7 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import './Leaderboard.css';
 import { useWorkingTimes } from "./components/WorkingTimesContext";
 import HeaderNavbar from "./components/HeaderNavbar.js";
-import { getUserData } from './api';
-import { updateUser } from './api';
+import { getUserData, updateUser, getLeaderboard } from './api';
 
 export default function Leaderboard() { 
     const { workingTimes, setWorkingTimes } = useWorkingTimes();
@@ -12,8 +11,19 @@ export default function Leaderboard() {
     const [sex, setSex] = useState('');    
     const [username, setUsername] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [leaderboard, setLeaderboard] = useState([])
 
     useEffect(() => {
+        async function getTopTen() {
+            try {
+                const response = await getLeaderboard()
+                console.log('leaderboard', response)
+                return response
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         async function checkUsername() {
             try {
                 const response = await getUserData();
@@ -32,6 +42,7 @@ export default function Leaderboard() {
         if (localStorage.getItem('userId') !== null) {
             checkUsername();
         }
+        setLeaderboard(getTopTen())
     }, []);
     
     const [errorMessage, setErrorMessage] = useState('');
@@ -62,7 +73,9 @@ export default function Leaderboard() {
     return (
         <div>
             <HeaderNavbar/>
-            <Form.Label className="info-label">Leaderboard in progress</Form.Label>
+            {
+
+            }
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body>
                     <Form.Label>Username</Form.Label>

@@ -53,3 +53,13 @@ export const postLogData = async (data) => {
       throw error;
     }
   };
+
+  export const getLeaderboard = async (data) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/leaderboard`, data);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting leaderboard:', error);
+      throw error;
+    }
+  }
