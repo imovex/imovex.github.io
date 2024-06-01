@@ -134,6 +134,19 @@ export function WorkingTimePicker({ onValidationChange, onWorkingTimesChange }) 
                     endTime: false
                 });
             }
+        } else {
+            setErrorMessage({
+                startTime: 'Required',
+                breakStartTime: 'Required',
+                breakEndTime: 'Required',
+                endTime: 'Required'
+            });
+            setError({
+                startTime: true,
+                breakStartTime: true,
+                breakEndTime: true,
+                endTime: true
+            });
         }
     }, [workingTimes]);
 

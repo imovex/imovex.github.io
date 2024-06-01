@@ -99,7 +99,7 @@ export default function Schedule() {
     };
 
     const logTaskData = async (currentTask) => {
-        let formattedTask = currentTask.name.toUpperCase();
+        let formattedTask = currentTask?.name.toUpperCase();
 
         if (formattedTask === "STAND UP") {
             formattedTask = "STAND_UP"; 
@@ -107,7 +107,7 @@ export default function Schedule() {
         const logData = {
             userId: localStorage.getItem('userId'),
             task: formattedTask,
-            status: currentTask.time
+            status: currentTask?.time
         };
 
         try {
@@ -186,7 +186,7 @@ export default function Schedule() {
             localStorage.setItem('schedule', JSON.stringify(schedule.current));
             schedule.current = updatedSchedule;
         }
-        if (schedule.current[currentEvent].time !== 'EXPIRED') {
+        if (schedule.current[currentEvent]?.time !== 'EXPIRED') {
             logTaskData(schedule.current[currentEvent]);
         }
         setCurrentEvent(nextEvent);        
