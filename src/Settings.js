@@ -11,7 +11,12 @@ import { updateUser } from './api';
 import { getUserData } from './api';
 
 export default function Settings() {
-    const { workingTimes, setWorkingTimes } = useWorkingTimes();
+    const [workingTimes, setWorkingTimes] = useState({
+        startTime: "",
+        breakStartTime: "",
+        breakEndTime: "",
+        endTime: ""
+    });
     const [showNotification, setShowNotification] = useState(false);
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');

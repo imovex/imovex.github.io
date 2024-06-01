@@ -3,7 +3,8 @@ import { Form, Col } from 'react-bootstrap';
 import { getUserData } from '../api';
 import './WorkingTimePicker.css';
 
-export function WorkingTimePicker({ onValidationChange }) {
+export function WorkingTimePicker({ onValidationChange, onWorkingTimesChange }) {
+    
     const [workingTimes, setWorkingTimes] = useState({
         startTime: "",
         breakStartTime: "",
@@ -36,16 +37,6 @@ export function WorkingTimePicker({ onValidationChange }) {
                     endTime: response.endTime
                 };
                 setWorkingTimes(dataBaseWorkingTimes);
-
-                const savedDate = new Date(localStorage.getItem('lastDate'));
-                const currentDate = new Date();
-                if (savedDate.getDate() === currentDate.getDate() && savedDate.getMonth() === currentDate.getMonth() && savedDate.getFullYear() === currentDate.getFullYear()) {
-                    // Arbeitszeiten nur in LS setzen, wenn neuer Tag, damit Schedule nicht manipulierbar
-                    return;
-                }
-            
-                localStorage.setItem('workingTimes', workingTimes);
-            
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
@@ -148,6 +139,7 @@ export function WorkingTimePicker({ onValidationChange }) {
         
         const isInvalid = Object.values(error).some(value => value);
         onValidationChange(!isInvalid);
+        onWorkingTimesChange(workingTimes);
 
     }, [workingTimes]);
 

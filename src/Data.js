@@ -3,26 +3,30 @@ import { Link } from 'react-router-dom';
 import { Col, Row, Form, Button, Image } from 'react-bootstrap';
 import './Data.css';
 import { WorkingTimePicker } from "./components/WorkingTimePicker";
-import { useWorkingTimes } from "./components/WorkingTimesContext";
 import { postUserData } from './api';
 import { getPublicKey } from './api';
 
-export default function Data() { 
-    const { workingTimes, setWorkingTimes } = useWorkingTimes();
-    // const isGamified = (localStorage.getItem("gamification") === 'true');
+export default function Data() {    
+    const [workingTimes, setWorkingTimes] = useState({
+        startTime: "",
+        breakStartTime: "",
+        breakEndTime: "",
+        endTime: ""
+    });
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isValid, setIsValid] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
         
-        if (((age <= 80) && (age >= 15)) && sex && workingTimes.startTime && workingTimes.endTime && workingTimes.breakStartTime && workingTimes.breakEndTime) {
+        if (((age <= 80) && (age >= 15)) && sex) {
             setIsValid(true);
         } else {
             setIsValid(false);
         }
-    }, [age, sex, workingTimes]);
+    }, [age, sex]);
 
     useEffect(() => {
         setWorkingTimes(workingTimes);
@@ -68,7 +72,9 @@ export default function Data() {
 
             // Speichern im Local Storage
             localStorage.setItem('userId', response.userId);
-            localStorage.setItem('gamification', response.gamification);
+            localStorage.setItem('gamification', response.gamification);        
+            localStorage.setItem('workingTimes',JSON.stringify(workingTimes));
+
             // Push-Benachrichtigungen zugelassen?
             if (Notification.permission !== 'granted') {
                 // Push-Benachrichtigungen zulassen?
@@ -121,8 +127,12 @@ export default function Data() {
         }
     };
 
-    const handleValidationChange = (isValid) => {
-        setIsValid(isValid);
+    const handleValidationChange = (isValid) => {        
+        setIsFormValid(isValid);
+    };
+
+    const handleWorkingTimesChange = (validatedWorkingTimes) => {
+        setWorkingTimes(validatedWorkingTimes);
     };
 
     return (
@@ -157,9 +167,9 @@ export default function Data() {
                             <option>No answer</option>
                         </Form.Control> 
                     </Col>
-                    <WorkingTimePicker onValidationChange={handleValidationChange}/>
+                    <WorkingTimePicker onWorkingTimesChange={handleWorkingTimesChange} onValidationChange={handleValidationChange}/>
                 </Row>
-                {isValid ? (
+                {(isValid && isFormValid) ? (
                     <Link to="/thankyou">
                         <Button onClick={handlePostUserData}>Let's go!</Button>
                     </Link>
