@@ -277,7 +277,7 @@ export default function Schedule() {
                             )
                         : undefined
                 }
-                <Form.Label className="scheduleTitle">Today</Form.Label>
+                <h4>Today</h4>
                 {schedule.current.map((task, index) => {
                     let InnerCardComponent;
                     switch (task.name) {
@@ -308,11 +308,11 @@ export default function Schedule() {
                                                 onReject={() => handleReject(task.name)}
                                             />
                                         ) : (
-                                            <OuterCard taskName={task.name} taskTime={task.time} buttonStatus={task.buttonStatus} />
+                                            <OuterCard left={task.name} right={task.time} buttonStatus={task.buttonStatus} />
                                         )}
                                     </React.Fragment>
                                 ) : (
-                                    <OuterCard taskName={task.name} taskTime={task.time} buttonStatus={task.buttonStatus} />
+                                    <OuterCard left={task.name} right={task.time} buttonStatus={task.buttonStatus} />
                                 )
                             ) : null}
                         </React.Fragment>

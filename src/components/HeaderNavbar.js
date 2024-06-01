@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Image } from 'react-bootstrap';
-import {Gear, Trophy} from 'react-bootstrap-icons';
+import { Trophy } from 'react-bootstrap-icons';
 import './HeaderNavbar.css'
 
 export default function HeaderNavbar() {
@@ -9,13 +9,6 @@ export default function HeaderNavbar() {
 
     return (
         <Navbar>
-          <Nav>           
-            <Nav.Link>
-              <Link to="/settings">
-                <Gear className="settings-icon"/>
-              </Link>
-            </Nav.Link>
-          </Nav>
           <Nav className="home">
             <Nav.Link>
               <Link to="/schedule">
@@ -24,7 +17,7 @@ export default function HeaderNavbar() {
             </Nav.Link>
           </Nav>
                {isGamified ?
-                   <Nav>
+                   <Nav className="leaderboard-nav">
                        <Nav.Link>
                             <Link to="/leaderboard">
                                 <Trophy className="leaderboard-icon"/>

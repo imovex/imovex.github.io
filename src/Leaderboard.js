@@ -1,24 +1,45 @@
 import React, {useState, useEffect } from "react";
-import { Button, Modal, Form } from 'react-bootstrap';
+import {Button, Modal, Form} from 'react-bootstrap';
 import './Leaderboard.css';
 import { useWorkingTimes } from "./components/WorkingTimesContext";
 import HeaderNavbar from "./components/HeaderNavbar.js";
-import { getUserData, updateUser, getLeaderboard } from './api';
+import { getUserData, updateUser } from './api';
+import {OuterCard} from "./components/OuterCard";
 
 export default function Leaderboard() { 
-    const { workingTimes, setWorkingTimes } = useWorkingTimes();
+    const { workingTimes } = useWorkingTimes();
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');    
     const [username, setUsername] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [leaderboard, setLeaderboard] = useState([])
+    const [leaderboard] = useState(
+        [
+            {
+                userId: "id",
+                userName: "finny",
+                points: 100
+            },
+            {
+                userId: "c7967a71-6b9b-453a-bce5-fb3373d5ee5a",
+                userName: "ninchen",
+                points: 99
+            },
+            {
+                userId: "id",
+                userName: "quappe",
+                points: 98
+            },
+            {
+                userId: "id",
+                userName: "prili",
+                points: 97
+            }
+    ])
 
     useEffect(() => {
         async function getTopTen() {
             try {
-                const response = await getLeaderboard()
-                console.log('leaderboard', response)
-                return response
+                return await getLeaderboard()
             } catch (error) {
                 console.log(error)
             }
@@ -42,7 +63,7 @@ export default function Leaderboard() {
         if (localStorage.getItem('userId') !== null) {
             checkUsername();
         }
-        setLeaderboard(getTopTen())
+        // setLeaderboard(getTopTen()) TODO einkommentieren quappe
     }, []);
     
     const [errorMessage, setErrorMessage] = useState('');
@@ -69,13 +90,32 @@ export default function Leaderboard() {
             console.error('Error updating username:', error);
         }
     };
-    
+
+    function getLeaderboard () {
+        const userId = localStorage.getItem('userId');
+        return <div className="leaderboard">
+            <h4>Leaderboard</h4>
+            <p>Current Top Ten Performer</p>
+            {
+                leaderboard.map((user, index) =>
+                    <OuterCard
+                        left={index + 1 + ". " + user.userName}
+                        right={user.points}
+                        highlight={userId && userId === user.userId}
+                    />
+                )
+            }
+            <p>
+                You ({leaderboard.find((user) => user.userId === userId).userName})
+                have {leaderboard.find((user) => user.userId === userId).points} points.
+            </p>
+        </div>
+    }
+
     return (
         <div>
             <HeaderNavbar/>
-            {
-
-            }
+            {getLeaderboard()}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body>
                     <Form.Label>Username</Form.Label>
