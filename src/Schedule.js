@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef } from "react";
-import { Col, Form } from 'react-bootstrap';
+import {Col, Form, ProgressBar} from 'react-bootstrap';
 import './Schedule.css';
 import { InnerCardStandUp } from "./components/InnerCardStandUp.js";
 import { InnerCardStretch } from "./components/InnerCardStretch.js";
@@ -10,8 +10,17 @@ import HeaderNavbar from "./components/HeaderNavbar.js";
 import { getUserData } from './api';
 import { postLogData } from './api';
 
-export default function Schedule() {    
-    const { workingTimes, setWorkingTimes } = useWorkingTimes();
+export default function Schedule() {
+    const savedWorkingTimes = localStorage.getItem('workingTimes');
+    const [workingTimes, setWorkingTimes] = useState(
+        savedWorkingTimes
+            ? JSON.parse(savedWorkingTimes)
+            : {
+                startTime: '',
+                breakStartTime: '',
+                breakEndTime: '',
+                endTime: ''
+            });
     // const initialSchedule = [
     //         { name: 'Stand up', time: '17:19', buttonStatus: null },
     //         { name: 'Stretch', time: '17:20', buttonStatus: null },
@@ -196,7 +205,7 @@ export default function Schedule() {
             const endTime = timeStringToDate(schedule.current[nextEvent].time).getTime();
             const delay = endTime - startTime;
             
-            if (schedule.current[currentEvent].time !== ('DONE' || 'DECLINED' || 'EXPIRED')) { 
+            if (schedule.current[currentEvent]?.time !== ('DONE' || 'DECLINED' || 'EXPIRED')) {
                 timeoutID = setTimeout(handleTimeoutExpired, delay);
             }
             console.log('Timer started until', schedule.current[nextEvent].time);
@@ -237,10 +246,37 @@ export default function Schedule() {
         console.log('DECLINED - Task wurde abgelehnt');     
     };
 
+    useEffect(() => {
+        function calculateProgress() {
+            const totalTasks = schedule.current.length;
+            const completedTasks = schedule.current.filter(task => task.buttonStatus === 'confirmed').length;
+            const progressPercentage = (completedTasks / totalTasks) * 100;
+            return progressPercentage;
+        }
+
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) {
+            progressBar.style.width = `${calculateProgress()}%`;
+        }
+    }, [schedule]);
+
     return (
         <div>
             <HeaderNavbar/>
             <Col className="scheduleCol">
+                {
+                    localStorage.getItem('gamification') === 'true' ?
+                        (
+                            <div className="progressContainer">
+                                <ProgressBar striped />
+                                <div>
+                                    {schedule.current.filter(task => task.buttonStatus === 'confirmed').length} / {schedule.current.length}
+                                    {" "} Tasks done
+                                </div>
+                            </div>
+                            )
+                        : undefined
+                }
                 <Form.Label className="scheduleTitle">Today</Form.Label>
                 {schedule.current.map((task, index) => {
                     let InnerCardComponent;

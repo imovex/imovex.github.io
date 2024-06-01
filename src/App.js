@@ -5,7 +5,6 @@ import Disclaimer from './Disclaimer';
 import Data from './Data';
 import Settings from './Settings';
 import Schedule from './Schedule';
-import ScheduleGamified from './ScheduleGamified';
 import Leaderboard from './Leaderboard';
 import './App.css';
 
@@ -19,12 +18,9 @@ function App(){
         navigate('/' + path);
       } else {
         const isFirstVisit = localStorage.getItem('userId') === null;
-        const isGamified = localStorage.getItem('gamification') === 'true';
-  
+
         if (isFirstVisit) {
           navigate('/intro');
-        } else if (isGamified) {
-          navigate('/gschedule');
         } else {
           navigate('/schedule');
         }
@@ -42,7 +38,6 @@ function App(){
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/data" element={<Data />} />
           <Route path="/schedule" element={<Schedule />} />
-          <Route path="/gschedule" element={<ScheduleGamified />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/settings" element={<Settings />} />
           {/* <Route path="/*" element={<Navigate to="/" />} /> */}

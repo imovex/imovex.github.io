@@ -5,7 +5,6 @@ import './WorkingTimePicker.css';
 import './../Formular.css';
 
 export function WorkingTimePicker({ onValidationChange, onWorkingTimesChange }) {
-    
     const [workingTimes, setWorkingTimes] = useState({
         startTime: "",
         breakStartTime: "",
@@ -81,7 +80,7 @@ export function WorkingTimePicker({ onValidationChange, onWorkingTimesChange }) 
             const breakStart = timeStringToDate(breakStartTime).getTime();
             const breakEnd = timeStringToDate(breakEndTime).getTime();
             const end = timeStringToDate(endTime).getTime();
-            
+
             if (!(start < breakStart && breakStart < breakEnd && breakEnd < end)) {          
                 setErrorMessage({
                     startTime: 'Your working times are in the wrong order, they need to be chronologically increasing',
@@ -135,14 +134,14 @@ export function WorkingTimePicker({ onValidationChange, onWorkingTimesChange }) 
                     endTime: false
                 });
             }
-            
-        } 
-        
+        }
+    }, [workingTimes]);
+
+    useEffect(() => {
         const isInvalid = Object.values(error).some(value => value);
         onValidationChange(!isInvalid);
         onWorkingTimesChange(workingTimes);
-
-    }, [workingTimes]);
+    }, [error]);
 
     return (
         <Col className="workingTimeCol">
