@@ -19,7 +19,7 @@ function Disclaimer() {
             <Row className="disclaimer-row">
                 <Image className="welcome" src={`${process.env.PUBLIC_URL}/Welcome_iMOVEx.png`}/>
                 <p className="info-text">
-                    Please note that this application will collect data about your performance. 
+                    Please note that this application will collect data about your performance and behaviour. 
                     This is solely for research purposes as part of the underlying master's thesis. 
                     You must agree to this in order to use the application.
                 </p>

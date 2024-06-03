@@ -144,7 +144,7 @@ export default function Data() {
                 <Image className="welcome" src={`${process.env.PUBLIC_URL}/Welcome_iMOVEx.png`}/>
                 <Row className="info-row">
                     <Col className="input-col">
-                        <Form.Label className="info-label">For evaluation purposes it is necessary to enter age and sex.</Form.Label>
+                        <Form.Label className="info-label">Let's start by setting up your average working day. Please note that you can only set your working times once to keep the collected data consistent.</Form.Label>
                         <Form.Label>Age</Form.Label>
                         <Form.Control 
                             as="input" 

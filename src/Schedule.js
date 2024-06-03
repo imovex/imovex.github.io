@@ -19,8 +19,9 @@ export default function Schedule() {
                 breakEndTime: '',
                 endTime: ''
             });
+    
+    const isGamified = localStorage.getItem('gamification') === 'true';
 
-    const [gamification, setGamification] = useState(localStorage.getItem('gamification') === 'true');
     // const initialSchedule = [
     //         { name: 'Stand up', time: '17:19', buttonStatus: null },
     //         { name: 'Stretch', time: '17:20', buttonStatus: null },
@@ -135,7 +136,8 @@ export default function Schedule() {
     let timeoutID = null;
         
     useEffect(() => {
-        startTimerNextEvent();
+        startTimerNextEvent();        
+        setTrigger(true); // Neu rendern
     }, [currentEvent]);
 
     const handleTimeoutExpired = async () => {
@@ -156,9 +158,7 @@ export default function Schedule() {
             localStorage.setItem('schedule', JSON.stringify(schedule.current));
             schedule.current = updatedSchedule;
         }
-        if (schedule.current[currentEvent]?.time !== 'EXPIRED') {
-            logTaskData(schedule.current[currentEvent]);
-        }
+        
         setCurrentEvent(nextEvent);        
         setNextEvent(nextEvent + 1);
         console.log("Timeout");
@@ -176,9 +176,9 @@ export default function Schedule() {
             const delay = endTime - startTime;
             
             if (schedule.current[currentEvent]?.time !== ('DONE' || 'DECLINED' || 'EXPIRED')) {
-                timeoutID = setTimeout(handleTimeoutExpired, delay);
+                timeoutID = setTimeout(handleTimeoutExpired, delay);                
+                console.log('Timer started until', schedule.current[nextEvent].time);
             }
-            console.log('Timer started until', schedule.current[nextEvent].time);
             return () => clearTimeout(timeoutID);
 
         } else if (nextEvent === schedule.current.length) {
@@ -192,9 +192,11 @@ export default function Schedule() {
                 delay = 0; // Direkt EXPIRED
             } else {
                 delay = 3600000; // Timer auf 1h
-            }        
-            timeoutID = setTimeout(handleTimeoutExpired, delay);
-            console.log('Timer started for last task');
+            }
+            if (schedule.current[currentEvent]?.time !== ('DONE' || 'DECLINED' || 'EXPIRED')) {
+                timeoutID = setTimeout(handleTimeoutExpired, delay);
+                console.log('Timer started for last task');
+            }
             return () => clearTimeout(timeoutID);  
         }
         else {
@@ -204,6 +206,8 @@ export default function Schedule() {
 
     const handleConfirm = () => {          
         schedule.current[currentEvent] = {...schedule.current[currentEvent], time: 'DONE', buttonStatus: 'confirmed' };
+        logTaskData(schedule.current[currentEvent]);
+        console.log('DONE geloggt');
         localStorage.setItem('schedule', JSON.stringify(schedule.current));
         setTrigger(false); // Neu rendern
         console.log('DONE - Task wurde abgeschlossen');
@@ -211,6 +215,8 @@ export default function Schedule() {
     
     const handleReject = () => {
         schedule.current[currentEvent] = {...schedule.current[currentEvent], time: 'DECLINED', buttonStatus: 'rejected' };
+        logTaskData(schedule.current[currentEvent]);
+        console.log('DECLINED geloggt');
         localStorage.setItem('schedule', JSON.stringify(schedule.current));
         setTrigger(false); // Neu rendern
         console.log('DECLINED - Task wurde abgelehnt');     
@@ -235,7 +241,7 @@ export default function Schedule() {
             <HeaderNavbar/>
             <Col className="scheduleCol">
                 {
-                    gamification ?
+                    isGamified ?
                         (
                             <div className="progressContainer">
                                 <ProgressBar striped />

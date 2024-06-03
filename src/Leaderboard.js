@@ -57,7 +57,7 @@ export default function Leaderboard() {
             checkUsername();            
             getTopTen();
         }
-    }, []);
+}, []);
     
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -130,7 +130,8 @@ export default function Leaderboard() {
             {getLeaderboardUI()}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body>
-                    <Form.Label>Username</Form.Label>
+                    <h4>Username</h4>                    
+                    <Form.Text>Please note that your can only set your username once. Choose wisely.</Form.Text>
                     <Form.Control
                         type="text"
                         placeholder="Enter a unique username"

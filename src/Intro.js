@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { Col, Row, Form, Image, Button } from 'react-bootstrap';
+import { Col, Row, Image, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import './Intro.css';
 import './Header.css';
 
 function Intro() {
-    const [displayText, setDisplayText] = useState("Help yourself to integrate more physical activity into your working day to keep your health in mind");
+    const [displayText, setDisplayText] = useState("Thank you for being interested in my research! This application will help you to increase the physical activity in your working day.");
     const [step, setStep] = useState(1);
 
     const handleButtonClick = () => {
         if (step === 1) {
-            setDisplayText("Let's get started by checking your working day routine and set up a schedule to increase your activity!");
+            setDisplayText("You are a suitable testuser if your day includes mainly sedentary work and if you are available for most of the testing period.");
             setStep(2);
         } 
     };
@@ -22,7 +22,7 @@ function Intro() {
                     <Image className="welcome" src={`${process.env.PUBLIC_URL}/Welcome_iMOVEx.png`}/>
                     <p className="info-text">{displayText}</p>
                     <Col className="button-col">
-                        <Button className="ok-button" onClick={handleButtonClick}>Understood</Button>
+                        <Button className="ok-button" onClick={handleButtonClick}>I want to participate</Button>
                     </Col>
                 </Row>
             ) : step === 2 ? (
