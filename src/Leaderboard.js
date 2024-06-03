@@ -1,9 +1,9 @@
-import React, {useState, useEffect } from "react";
-import {Button, Modal, Form} from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Button, Modal, Form } from 'react-bootstrap';
 import './Leaderboard.css';
 import HeaderNavbar from "./components/HeaderNavbar.js";
-import { getUserData, updateUser } from './api';
-import {OuterCard} from "./components/OuterCard";
+import { getUserData, updateUser, getLeaderboard } from './api';
+import { OuterCard } from "./components/OuterCard";
 
 export default function Leaderboard() { 
     const savedWorkingTimes = localStorage.getItem('workingTimes');
@@ -15,7 +15,7 @@ export default function Leaderboard() {
                 breakStartTime: '',
                 breakEndTime: '',
                 endTime: ''
-            });
+    });
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');    
     const [username, setUsername] = useState('');
@@ -25,34 +25,14 @@ export default function Leaderboard() {
         userId: '',
         points: 0
     })
-    const [leaderboard] = useState(
-        [
-            {
-                userId: "id",
-                userName: "finny",
-                points: 100
-            },
-            {
-                userId: "c7967a71-6b9b-453a-bce5-fb3373d5ee5a",
-                userName: "ninchen",
-                points: 99
-            },
-            {
-                userId: "id",
-                userName: "quappe",
-                points: 98
-            },
-            {
-                userId: "id",
-                userName: "prili",
-                points: 97
-            }
-    ])
+    const [leaderboard, setLeaderboard] = useState([]);
 
     useEffect(() => {
         async function getTopTen() {
             try {
-                return await getLeaderboard()
+                const response = await getLeaderboard();
+                setLeaderboard(response);
+                return response;
             } catch (error) {
                 console.log(error)
             }
@@ -74,9 +54,9 @@ export default function Leaderboard() {
         }
 
         if (localStorage.getItem('userId') !== null) {
-            checkUsername();
+            checkUsername();            
+            getTopTen();
         }
-        // setLeaderboard(getTopTen()) TODO einkommentieren quappe
     }, []);
     
     const [errorMessage, setErrorMessage] = useState('');
@@ -120,7 +100,7 @@ export default function Leaderboard() {
         return user.userId === '' && user.userName === ''
     }
 
-    function getLeaderboard () {
+    function getLeaderboardUI () {
         const userId = localStorage.getItem('userId');
 
         return <div className="leaderboard">
@@ -147,7 +127,7 @@ export default function Leaderboard() {
     return (
         <div>
             <HeaderNavbar/>
-            {getLeaderboard()}
+            {getLeaderboardUI()}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body>
                     <Form.Label>Username</Form.Label>

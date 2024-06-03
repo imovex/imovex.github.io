@@ -54,9 +54,10 @@ export const postLogData = async (data) => {
     }
   };
 
-  export const getLeaderboard = async (data) => {
+  export const getLeaderboard = async (data) => {    
+    const userId = localStorage.getItem('userId');
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/leaderboard`, data);
+      const response = await axios.get(`${API_BASE_URL}/api/leaderboard?userId=${userId}`, data);
       return response.data;
     } catch (error) {
       console.error('Error getting leaderboard:', error);
