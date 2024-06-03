@@ -1,13 +1,21 @@
 import React, {useState, useEffect } from "react";
 import {Button, Modal, Form} from 'react-bootstrap';
 import './Leaderboard.css';
-import { useWorkingTimes } from "./components/WorkingTimesContext";
 import HeaderNavbar from "./components/HeaderNavbar.js";
 import { getUserData, updateUser } from './api';
 import {OuterCard} from "./components/OuterCard";
 
 export default function Leaderboard() { 
-    const { workingTimes } = useWorkingTimes();
+    const savedWorkingTimes = localStorage.getItem('workingTimes');
+    const [workingTimes, setWorkingTimes] = useState(
+        savedWorkingTimes
+            ? JSON.parse(savedWorkingTimes)
+            : {
+                startTime: '',
+                breakStartTime: '',
+                breakEndTime: '',
+                endTime: ''
+            });
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');    
     const [username, setUsername] = useState('');

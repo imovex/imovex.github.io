@@ -1,13 +1,11 @@
 import React, {useState, useEffect, useRef } from "react";
-import {Col, Form, ProgressBar} from 'react-bootstrap';
+import {Col, ProgressBar} from 'react-bootstrap';
 import './Schedule.css';
 import { InnerCardStandUp } from "./components/InnerCardStandUp.js";
 import { InnerCardStretch } from "./components/InnerCardStretch.js";
 import { InnerCardMove } from "./components/InnerCardMove.js";
 import { OuterCard } from "./components/OuterCard.js";
-import { useWorkingTimes } from "./components/WorkingTimesContext";
 import HeaderNavbar from "./components/HeaderNavbar.js";
-import { getUserData } from './api';
 import { postLogData } from './api';
 
 export default function Schedule() {
@@ -21,6 +19,8 @@ export default function Schedule() {
                 breakEndTime: '',
                 endTime: ''
             });
+
+    const [gamification, setGamification] = useState(localStorage.getItem('gamification') === 'true');
     // const initialSchedule = [
     //         { name: 'Stand up', time: '17:19', buttonStatus: null },
     //         { name: 'Stretch', time: '17:20', buttonStatus: null },
@@ -31,36 +31,6 @@ export default function Schedule() {
     //         { name: 'Stand up', time: '17:49', buttonStatus: null },
     // ];
 
-    useEffect(() => {
-        async function fetchWorkingTimes() {
-            try {
-                const response = await getUserData();
-
-                const savedDate = new Date(localStorage.getItem('lastDate'));
-                const currentDate = new Date();
-                if (savedDate.getDate() === currentDate.getDate() && savedDate.getMonth() === currentDate.getMonth() && savedDate.getFullYear() === currentDate.getFullYear()) {
-                    // Arbeitszeiten nur aus DB holen, wenn neuer Tag, damit Schedule nicht manipulierbar
-                    return;
-                }
-
-                const dataBaseWorkingTimes = {
-                    startTime: response.startTime,
-                    breakStartTime: response.startBreakTime,
-                    breakEndTime: response.endBreakTime,
-                    endTime: response.endTime
-                };
-            
-                setWorkingTimes(dataBaseWorkingTimes);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        }
-
-        if (localStorage.getItem('userId') !== null) {
-            fetchWorkingTimes();
-        }
-    }, []);
-    
     const initialSchedule = [];
 
     const morningBlockTime = (((timeStringToDate(workingTimes.breakStartTime) - timeStringToDate(workingTimes.startTime))/ 1000) / 60 ) / 4;
@@ -265,7 +235,7 @@ export default function Schedule() {
             <HeaderNavbar/>
             <Col className="scheduleCol">
                 {
-                    localStorage.getItem('gamification') === 'true' ?
+                    gamification ?
                         (
                             <div className="progressContainer">
                                 <ProgressBar striped />
