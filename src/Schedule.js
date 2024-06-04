@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {Col, ProgressBar} from 'react-bootstrap';
 import './Schedule.css';
 import { InnerCardStandUp } from "./components/InnerCardStandUp.js";
@@ -9,6 +9,7 @@ import HeaderNavbar from "./components/HeaderNavbar.js";
 import { postLogData } from './api';
 
 export default function Schedule() {
+    const [trigger, setTrigger] = useState(0);
     const savedWorkingTimes = localStorage.getItem('workingTimes');
     const [workingTimes, setWorkingTimes] = useState(
         savedWorkingTimes
@@ -19,7 +20,15 @@ export default function Schedule() {
                 breakEndTime: '',
                 endTime: ''
             });
+
+    useEffect(() => {
+        const gamification = localStorage.getItem('gamification');
     
+        if (!gamification) {
+          window.location.href = '/schedule'; // Einmaliges Neuladen erzwingen damit Flag verfügbar
+        }
+    }, []);
+      
     const isGamified = localStorage.getItem('gamification') === 'true';
 
     // const initialSchedule = [
@@ -90,9 +99,7 @@ export default function Schedule() {
     }
 
     const schedule = useRef(initialSchedule);    
-    const [trigger, setTrigger] = useState(true);
     const [currentTime, setCurrentTime] = useState(new Date());
-    
     const [currentEvent, setCurrentEvent] = useState(() => {
         setCurrentTime(new Date());
         const savedDate = localStorage.getItem('lastDate');
@@ -107,11 +114,8 @@ export default function Schedule() {
         }
         localStorage.setItem('lastDate', currentTime);
 
-        // let temp = new Date();
-        // temp.setHours(14,29,0,0);
         const currentIndex = schedule.current.findLastIndex(task => 
             timeStringToDate(task.time).getTime() <= currentTime.getTime() && 
-            // timeStringToDate(task.time).getTime() <= temp.getTime() && 
             task.buttonStatus !== 'rejected' && 
             task.buttonStatus !== 'confirmed'
         );
@@ -137,19 +141,9 @@ export default function Schedule() {
         
     useEffect(() => {
         startTimerNextEvent();        
-        setTrigger(true); // Neu rendern
     }, [currentEvent]);
 
     const handleTimeoutExpired = async () => {
-        // if (nextEvent < schedule.current.length){
-        //     if ('serviceWorker' in navigator) {
-        //     navigator.serviceWorker.ready.then(registration => {
-        //         registration.showNotification('iMOVEx', {
-        //             body: 'Time for an activity!',
-        //             icon: 'iMOVExLogo.ico',
-        //         });
-        //     });
-        // }}
         if (currentEvent !== -1) {
             const updatedSchedule = [...schedule.current];
             if (updatedSchedule[currentEvent].buttonStatus !== 'confirmed' && updatedSchedule[currentEvent].buttonStatus !== 'rejected') {
@@ -161,17 +155,17 @@ export default function Schedule() {
         
         setCurrentEvent(nextEvent);        
         setNextEvent(nextEvent + 1);
+        setTrigger(trigger + 1); // Neu rendern
         console.log("Timeout");
     };
 
-    function startTimerNextEvent() {     
+    function startTimerNextEvent() {       
+        setTrigger(trigger + 1); // Neu rendern
         if (timeoutID) {
             clearTimeout(timeoutID);
-        }   
-        setTrigger(true); // Neu rendern
+        }
         if (nextEvent < schedule.current.length) {
             const startTime = new Date().getTime();
-            // const startTime = timeStringToDate(schedule.current[currentEvent].time).getTime();
             const endTime = timeStringToDate(schedule.current[nextEvent].time).getTime();
             const delay = endTime - startTime;
             
@@ -209,7 +203,7 @@ export default function Schedule() {
         logTaskData(schedule.current[currentEvent]);
         console.log('DONE geloggt');
         localStorage.setItem('schedule', JSON.stringify(schedule.current));
-        setTrigger(false); // Neu rendern
+        setTrigger(trigger + 1); // Neu rendern
         console.log('DONE - Task wurde abgeschlossen');
     };
     
@@ -218,7 +212,7 @@ export default function Schedule() {
         logTaskData(schedule.current[currentEvent]);
         console.log('DECLINED geloggt');
         localStorage.setItem('schedule', JSON.stringify(schedule.current));
-        setTrigger(false); // Neu rendern
+        setTrigger(trigger + 1); // Neu rendern
         console.log('DECLINED - Task wurde abgelehnt');     
     };
 
@@ -234,7 +228,7 @@ export default function Schedule() {
         if (progressBar) {
             progressBar.style.width = `${calculateProgress()}%`;
         }
-    }, [schedule]);
+    }, [schedule, trigger]);
 
     return (
         <div>

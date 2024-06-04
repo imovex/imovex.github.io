@@ -19,6 +19,7 @@ export default function Leaderboard() {
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');    
     const [username, setUsername] = useState('');
+    const [usernameChanged, setUsernameChanged] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [currentUser, setCurrentUser] = useState({
         userName: '',
@@ -57,7 +58,7 @@ export default function Leaderboard() {
             checkUsername();            
             getTopTen();
         }
-}, []);
+    }, [usernameChanged]);
     
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -71,7 +72,7 @@ export default function Leaderboard() {
         if (userFound && !userIsEmpty(userFound)) {
             setCurrentUser(userFound)
         }
-    }, [username]);
+    }, [username, leaderboard]);
 
     const handleUsernameSubmit = async () => {
         const userData = {
@@ -86,9 +87,10 @@ export default function Leaderboard() {
         };
         
         try {
-            const response = await updateUser(userData);            
-            setErrorMessage('');         
+            const response = await updateUser(userData);
+            setErrorMessage('');
             setShowModal(false); // Modal schließen
+            setUsernameChanged(true); 
 
         } catch (error) {
             setErrorMessage('This username is already taken');
@@ -131,7 +133,7 @@ export default function Leaderboard() {
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body>
                     <h4>Username</h4>                    
-                    <Form.Text>Please note that your can only set your username once. Choose wisely.</Form.Text>
+                    <Form.Text>Please note that you can only set your username once. Choose wisely.</Form.Text>
                     <Form.Control
                         type="text"
                         placeholder="Enter a unique username"
@@ -139,7 +141,7 @@ export default function Leaderboard() {
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     {errorMessage && <Form.Text className="error">{errorMessage}</Form.Text>}
-                    <Button className='saveButton' onClick={handleUsernameSubmit}>Save</Button>
+                    <Button className='saveButton' onClick={handleUsernameSubmit} disabled={!username}>Save</Button>
                 </Modal.Body>
             </Modal>
         </div>

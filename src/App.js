@@ -19,6 +19,7 @@ function App(){
         const isFirstVisit = localStorage.getItem('userId') === null;
 
         if (isFirstVisit) {
+          localStorage.removeItem('schedule');
           navigate('/intro');
         } else {
           navigate('/schedule');
