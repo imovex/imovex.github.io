@@ -132,7 +132,7 @@ export default function Schedule() {
     let timeoutID = null;
         
     useEffect(() => {
-        startTimerNextEvent();        
+        startTimerNextEvent();       
     }, [currentEvent]);
 
     const handleTimeoutExpired = async () => {
@@ -152,7 +152,6 @@ export default function Schedule() {
     };
 
     function startTimerNextEvent() {       
-        setTrigger(trigger + 1); // Neu rendern
         if (timeoutID) {
             clearTimeout(timeoutID);
         }
