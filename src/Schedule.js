@@ -20,14 +20,6 @@ export default function Schedule() {
                 breakEndTime: '',
                 endTime: ''
             });
-
-    useEffect(() => {
-        const gamification = localStorage.getItem('gamification');
-    
-        if (!gamification) {
-          window.location.href = '/schedule'; // Einmaliges Neuladen erzwingen damit Flag verfügbar
-        }
-    }, []);
       
     const isGamified = localStorage.getItem('gamification') === 'true';
 
