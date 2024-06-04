@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { Col, Row, Form, Button, Image } from 'react-bootstrap';
 import './Data.css';
 import './Formular.css';
@@ -8,7 +8,8 @@ import { WorkingTimePicker } from "./components/WorkingTimePicker";
 import { postUserData } from './api';
 import { getPublicKey } from './api';
 
-export default function Data() {    
+export default function Data() {
+    const navigate = useNavigate();
     const [workingTimes, setWorkingTimes] = useState({
         startTime: "",
         breakStartTime: "",
@@ -77,6 +78,8 @@ export default function Data() {
             // Speichern im Local Storage
             localStorage.setItem('userId', response.userId);
             localStorage.setItem('gamification', response.gamification);
+
+            navigate('/schedule')
 
             // Push-Benachrichtigungen zugelassen?
             if (Notification.permission !== 'granted') {
@@ -173,9 +176,7 @@ export default function Data() {
                     <WorkingTimePicker onWorkingTimesChange={handleWorkingTimesChange} onValidationChange={handleValidationChange}/>
                 </Row>
                 {(isValid && isFormValid) ? (
-                    <Link to="/schedule">
-                        <Button onClick={handlePostUserData}>Let's go!</Button>
-                    </Link>
+                    <Button onClick={handlePostUserData}>Let's go!</Button>
                     ) : (
                         <Button disabled>Let's go!</Button>
                     )}
