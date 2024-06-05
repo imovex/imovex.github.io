@@ -31,17 +31,14 @@ this.addEventListener("fetch", (event)=>{
 
 this.addEventListener('push', (e) => {
     
-    console.log(e.data);
-    const data = e.data.json();    
-    console.log(data);
+    let data = e.data ? e.data.json() : null; // Überprüfen, ob e.data null ist, bevor json() aufgerufen wird
+
+    if (data === null) {
+        data = {title: 'iMOVEx', body: 'Time for an activity!', icon: 'https://imovex.github.io/iMOVExLogo.ico', tag: 'thesis-activity'};
+    }
+
     this.registration.showNotification(data.title, {
         body: data.body,
         icon: data.icon,
     });
 });
-
-// this.addEventListener('push', event => {  
-//     event.waitUntil(
-//       this.registration.showNotification('Fälliges Event')
-//     );
-// });
