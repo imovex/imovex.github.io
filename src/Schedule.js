@@ -10,17 +10,9 @@ import { postLogData } from './api';
 
 export default function Schedule() {
     const [trigger, setTrigger] = useState(0);
-    const savedWorkingTimes = localStorage.getItem('workingTimes');
-    const [workingTimes, setWorkingTimes] = useState(
-        savedWorkingTimes
-            ? JSON.parse(savedWorkingTimes)
-            : {
-                startTime: '',
-                breakStartTime: '',
-                breakEndTime: '',
-                endTime: ''
-            });
-      
+    const savedWorkingTimes = JSON.parse(localStorage.getItem('workingTimes'));
+    const [workingTimes, setWorkingTimes] = useState(savedWorkingTimes);
+
     const isGamified = localStorage.getItem('gamification') === 'true';
 
     // const initialSchedule = [
@@ -33,36 +25,40 @@ export default function Schedule() {
     //         { name: 'Stand up', time: '17:49', buttonStatus: null },
     // ];
 
-    const initialSchedule = [];
+    function generateSchedule(workingTimes){
+        const initialSchedule = [];
 
-    const morningBlockTime = (((timeStringToDate(workingTimes.breakStartTime) - timeStringToDate(workingTimes.startTime))/ 1000) / 60 ) / 4;
-    const afternoonBlockTime = (((timeStringToDate(workingTimes.endTime) - timeStringToDate(workingTimes.breakEndTime))/ 1000) / 60 ) / 4;
+        const morningBlockTime = (((timeStringToDate(workingTimes.breakStartTime) - timeStringToDate(workingTimes.startTime))/ 1000) / 60 ) / 4;
+        const afternoonBlockTime = (((timeStringToDate(workingTimes.endTime) - timeStringToDate(workingTimes.breakEndTime))/ 1000) / 60 ) / 4;
 
-    const calculateTime = (baseTime, minutesToAdd) => {
-        const [baseHour, baseMinute] = baseTime.split(':').map(Number);
-        let totalMinutes = baseHour * 60 + baseMinute + minutesToAdd;    
-        // Auf die nächste Viertelstunde aufrunden
-        totalMinutes = Math.ceil(totalMinutes / 15) * 15;    
-        const newHour = Math.floor(totalMinutes / 60) % 24;
-        const newMinute = totalMinutes % 60;
-        return `${newHour.toString().padStart(2, '0')}:${newMinute.toString().padStart(2, '0')}`;
-    };
+        const calculateTime = (baseTime, minutesToAdd) => {
+            const [baseHour, baseMinute] = baseTime.split(':').map(Number);
+            let totalMinutes = baseHour * 60 + baseMinute + minutesToAdd;    
+            // Auf die nächste Viertelstunde aufrunden
+            totalMinutes = Math.ceil(totalMinutes / 15) * 15;    
+            const newHour = Math.floor(totalMinutes / 60) % 24;
+            const newMinute = totalMinutes % 60;
+            return `${newHour.toString().padStart(2, '0')}:${newMinute.toString().padStart(2, '0')}`;
+        };
 
-    function addActivity(name, startTime, buttonStatus) {
-        initialSchedule.push({
-            name: name,
-            time: startTime,
-            buttonStatus: buttonStatus
-        });
+        function addActivity(name, startTime, buttonStatus) {
+            initialSchedule.push({
+                name: name,
+                time: startTime,
+                buttonStatus: buttonStatus
+            });
+        }
+        addActivity('Stand up', calculateTime(workingTimes.startTime, morningBlockTime), null);
+        addActivity('Stretch', calculateTime(workingTimes.startTime, morningBlockTime * 2), null);
+        addActivity('Stand up', calculateTime(workingTimes.startTime, morningBlockTime * 3), null);
+        addActivity('Move', workingTimes.breakStartTime, null);
+        addActivity('Stand up', calculateTime(workingTimes.breakEndTime, afternoonBlockTime), null);
+        addActivity('Stretch', calculateTime(workingTimes.breakEndTime, afternoonBlockTime * 2), null);
+        addActivity('Stand up', calculateTime(workingTimes.breakEndTime, afternoonBlockTime * 3), null);
+
+        return initialSchedule;
     }
-    addActivity('Stand up', calculateTime(workingTimes.startTime, morningBlockTime), null);
-    addActivity('Stretch', calculateTime(workingTimes.startTime, morningBlockTime * 2), null);
-    addActivity('Stand up', calculateTime(workingTimes.startTime, morningBlockTime * 3), null);
-    addActivity('Move', workingTimes.breakStartTime, null);
-    addActivity('Stand up', calculateTime(workingTimes.breakEndTime, afternoonBlockTime), null);
-    addActivity('Stretch', calculateTime(workingTimes.breakEndTime, afternoonBlockTime * 2), null);
-    addActivity('Stand up', calculateTime(workingTimes.breakEndTime, afternoonBlockTime * 3), null);
-    
+
     function timeStringToDate(timeString) {
         const [hours, minutes] = timeString.split(':');
         const date = new Date();
@@ -90,11 +86,19 @@ export default function Schedule() {
         }
     }
 
-    const schedule = useRef(initialSchedule);    
+    const schedule = useRef(generateSchedule(workingTimes));
+    
+    localStorage.setItem('initialSchedule', JSON.stringify(schedule)); 
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentEvent, setCurrentEvent] = useState(() => {
         setCurrentTime(new Date());
         const savedDate = localStorage.getItem('lastDate');
+        const currentIndex = schedule.current.findLastIndex(task => 
+            timeStringToDate(task.time).getTime() <= currentTime.getTime() && 
+            task.buttonStatus !== 'rejected' && 
+            task.buttonStatus !== 'confirmed' &&
+            task.buttonStatus !== 'expired'
+        );
 
         // Reset an neuem Tag
         if (savedDate) {
@@ -106,17 +110,30 @@ export default function Schedule() {
         }
         localStorage.setItem('lastDate', currentTime);
 
-        const currentIndex = schedule.current.findLastIndex(task => 
-            timeStringToDate(task.time).getTime() <= currentTime.getTime() && 
-            task.buttonStatus !== 'rejected' && 
-            task.buttonStatus !== 'confirmed'
-        );
-        const savedSchedule = localStorage.getItem('schedule');
+        const savedSchedule = localStorage.getItem('schedule');        
+        const newInitialSchedule = generateSchedule(workingTimes);
         if (savedSchedule) {
-            schedule.current = JSON.parse(savedSchedule);
+            if (newInitialSchedule !== localStorage.getItem('initialSchedule')) {
+                // Settings wurden verändert
+                const oldSchedule = JSON.parse(localStorage.getItem('schedule'))
+                const updatedSchedule = oldSchedule.map((task, index) => {
+                    if (task.buttonStatus === null) {
+                        return newInitialSchedule[index];
+                    }
+                    return task;
+                });
+                localStorage.setItem('schedule', JSON.stringify(updatedSchedule));
+                localStorage.setItem('initialSchedule', JSON.stringify(newInitialSchedule));                
+                schedule.current = updatedSchedule;
+
+            } else {
+                // Settings unverändert         
+                schedule.current = JSON.parse(savedSchedule);
+            }
         } else {
-            schedule.current = initialSchedule;
+            schedule.current = generateSchedule(workingTimes);
         }
+        
         // Wenn Arbeitstag bereits begonnen, verpasste Tasks auf EXPIRED
         const updatedSchedule = schedule.current.map((task, index) => {
             if (index < currentIndex && task.buttonStatus !== 'confirmed' && task.buttonStatus !== 'rejected') {
