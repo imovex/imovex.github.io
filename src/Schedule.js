@@ -142,7 +142,7 @@ export default function Schedule() {
             if (index < currentIndex && task.buttonStatus !== 'confirmed' && task.buttonStatus !== 'rejected') {
                 return { ...task, time: 'EXPIRED', buttonStatus: 'expired' };
             }            
-            localStorage.setItem('schedule', JSON.stringify(updatedSchedule));
+            localStorage.setItem('schedule', JSON.stringify(schedule.current));
             return task;
         });
         schedule.current = updatedSchedule;
