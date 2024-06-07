@@ -87,13 +87,15 @@ export default function Schedule() {
     }
 
     const schedule = useRef(generateSchedule(workingTimes));
+    useEffect(() => {
+        localStorage.setItem('initialSchedule', JSON.stringify(generateSchedule(workingTimes)));       
+    }, []);
     
-    localStorage.setItem('initialSchedule', JSON.stringify(schedule)); 
     const [currentTime, setCurrentTime] = useState(new Date());
     const [currentEvent, setCurrentEvent] = useState(() => {
         setCurrentTime(new Date());
         const savedDate = localStorage.getItem('lastDate');
-        const currentIndex = schedule.current.findLastIndex(task => 
+        let currentIndex = schedule.current.findLastIndex(task => 
             timeStringToDate(task.time).getTime() <= currentTime.getTime() && 
             task.buttonStatus !== 'rejected' && 
             task.buttonStatus !== 'confirmed' &&
@@ -112,6 +114,7 @@ export default function Schedule() {
 
         const savedSchedule = localStorage.getItem('schedule');        
         const newInitialSchedule = generateSchedule(workingTimes);
+        console.log(newInitialSchedule)
         if (savedSchedule) {
             if (newInitialSchedule !== localStorage.getItem('initialSchedule')) {
                 // Settings wurden verändert
@@ -125,7 +128,6 @@ export default function Schedule() {
                 localStorage.setItem('schedule', JSON.stringify(updatedSchedule));
                 localStorage.setItem('initialSchedule', JSON.stringify(newInitialSchedule));                
                 schedule.current = updatedSchedule;
-
             } else {
                 // Settings unverändert         
                 schedule.current = JSON.parse(savedSchedule);
