@@ -142,9 +142,10 @@ export default function Schedule() {
             if (index < currentIndex && task.buttonStatus !== 'confirmed' && task.buttonStatus !== 'rejected') {
                 return { ...task, time: 'EXPIRED', buttonStatus: 'expired' };
             }            
-            localStorage.setItem('schedule', JSON.stringify(schedule.current));
             return task;
         });
+        
+        localStorage.setItem('schedule', JSON.stringify(updatedSchedule));
         schedule.current = updatedSchedule;
         
         // Schedule durch Settings angepasst: currentIndex evtl in bereits bearbeitetem Bereich --> vorschieben bis nextIndex wieder bei offenem Event
