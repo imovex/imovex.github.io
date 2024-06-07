@@ -15,7 +15,7 @@ this.addEventListener("install",(event)=>{
     )
 }) 
 
-this.addEventListener("fetch", (event)=>{
+self.addEventListener("fetch", (event)=>{
     if(!navigator.onLine) 
     {
         event.respondWith(
@@ -29,8 +29,9 @@ this.addEventListener("fetch", (event)=>{
     }
 })
 
-this.addEventListener('push', (e) => {
-    
+self.addEventListener('push', (e) => {
+    console.log("push");
+    console.log(e);
     let data = e.data ? e.data.json() : null; // Überprüfen, ob e.data null ist, bevor json() aufgerufen wird
 
     if (data === null) {
@@ -39,6 +40,16 @@ this.addEventListener('push', (e) => {
 
     this.registration.showNotification(data.title, {
         body: data.body,
-        icon: data.icon,
+        icon: data.icon
     });
+});
+
+self.addEventListener('notificationclick', (event) => {
+    console.log('Event: ', event);
+    let url = 'https://imovex.github.io/schedule';
+
+    event.notification.close();
+    event.waitUntil(
+        this.clients.openWindow(url)
+    );
 });
