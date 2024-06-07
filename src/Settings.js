@@ -65,7 +65,7 @@ export default function Settings() {
             console.error('Error updating user data:', error);
         }
         localStorage.setItem('workingTimes',JSON.stringify(workingTimes));
-        
+
         setShowNotification(true);
         setTimeout(() => {
             setShowNotification(false);
@@ -84,10 +84,7 @@ export default function Settings() {
         <div>        
             <HeaderNavbar />
             <Col className="settingsCol">
-                <Col className="titleCol">
-                    <Form.Label>Settings</Form.Label>
-                    <Gear className="settingsGear"/>                    
-                </Col>                 
+                <h5>Settings</h5>      
                 <Form.Label className="settingsSubtitle">Adjust your working times:</Form.Label>
                 <Col className="inputCol">
                     <WorkingTimePicker onWorkingTimesChange={handleWorkingTimesChange} onValidationChange={handleValidationChange}/>

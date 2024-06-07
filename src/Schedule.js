@@ -114,11 +114,11 @@ export default function Schedule() {
 
         const savedSchedule = localStorage.getItem('schedule');        
         const newInitialSchedule = generateSchedule(workingTimes);
-        console.log(newInitialSchedule)
         if (savedSchedule) {
             if (newInitialSchedule !== localStorage.getItem('initialSchedule')) {
                 // Settings wurden verändert
                 const oldSchedule = JSON.parse(localStorage.getItem('schedule'))
+                // Ersetze noch nicht bearbeitete Events durch die mit den neuen Zeiten
                 const updatedSchedule = oldSchedule.map((task, index) => {
                     if (task.buttonStatus === null) {
                         return newInitialSchedule[index];
@@ -126,7 +126,8 @@ export default function Schedule() {
                     return task;
                 });
                 localStorage.setItem('schedule', JSON.stringify(updatedSchedule));
-                localStorage.setItem('initialSchedule', JSON.stringify(newInitialSchedule));                
+                localStorage.setItem('initialSchedule', JSON.stringify(newInitialSchedule));
+
                 schedule.current = updatedSchedule;
             } else {
                 // Settings unverändert         
@@ -144,10 +145,17 @@ export default function Schedule() {
             return task;
         });
         schedule.current = updatedSchedule;
+        
+        // Schedule durch Settings angepasst: currentIndex evtl in bereits bearbeitetem Bereich --> vorschieben bis nextIndex wieder bei offenem Event
+        let index = currentIndex + 1;
+        while (schedule.current[index] && schedule.current[index].buttonStatus !== null) {
+          index++;
+        }
+        currentIndex = index - 1; // currentIndex auf zuletzt abgeschlossenes Event
         return currentIndex;
     });
 
-    const [nextEvent, setNextEvent] = useState(currentEvent + 1); 
+    const [nextEvent, setNextEvent] = useState(currentEvent + 1);
     let timeoutID = null;
         
     useEffect(() => {
@@ -179,10 +187,8 @@ export default function Schedule() {
             const endTime = timeStringToDate(schedule.current[nextEvent].time).getTime();
             const delay = endTime - startTime;
             
-            if (schedule.current[currentEvent]?.time !== ('DONE' || 'DECLINED' || 'EXPIRED')) {
-                timeoutID = setTimeout(handleTimeoutExpired, delay);                
-                console.log('Timer started until', schedule.current[nextEvent].time);
-            }
+            timeoutID = setTimeout(handleTimeoutExpired, delay);                
+            console.log('Timer started until', schedule.current[nextEvent].time);
             return () => clearTimeout(timeoutID);
 
         } else if (nextEvent === schedule.current.length) {
@@ -197,10 +203,8 @@ export default function Schedule() {
             } else {
                 delay = 3600000; // Timer auf 1h
             }
-            if (schedule.current[currentEvent]?.time !== ('DONE' || 'DECLINED' || 'EXPIRED')) {
-                timeoutID = setTimeout(handleTimeoutExpired, delay);
-                console.log('Timer started for last task');
-            }
+            timeoutID = setTimeout(handleTimeoutExpired, delay);
+            console.log('Timer started for last task');
             return () => clearTimeout(timeoutID);  
         }
         else {

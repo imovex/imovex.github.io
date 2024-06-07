@@ -4,19 +4,12 @@
     align-items: center;    
     font-size: large;
     font-weight: bold;
+    margin-top: 0.5em;
 
     .settingsSubtitle {
         font-size: medium;
     }
-
-    .titleCol {    
-        font-size: large;
-        margin-top: 0.5em;
-        .settingsGear {
-            height: 1em;
-            width: 2em;
-        }
-    }
+    
     .inputCol {
         display: flex;
         flex-direction: column;
