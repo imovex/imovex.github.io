@@ -15,16 +15,6 @@ export default function Schedule() {
 
     const isGamified = localStorage.getItem('gamification') === 'true';
 
-    // const initialSchedule = [
-    //         { name: 'Stand up', time: '17:19', buttonStatus: null },
-    //         { name: 'Stretch', time: '17:20', buttonStatus: null },
-    //         { name: 'Stand up', time: '17:21', buttonStatus: null },
-    //         { name: 'Move', time: '17:22', buttonStatus: null },
-    //         { name: 'Stand up', time: '17:47', buttonStatus: null },
-    //         { name: 'Stretch', time: '17:48', buttonStatus: null },
-    //         { name: 'Stand up', time: '17:49', buttonStatus: null },
-    // ];
-
     function generateSchedule(workingTimes){
         const initialSchedule = [];
 

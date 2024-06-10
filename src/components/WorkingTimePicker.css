@@ -6,6 +6,7 @@
 
     .invalid-feedback {
         text-align: center;
+        font-weight: normal;
     }
 
     &.col {

@@ -5,19 +5,10 @@
     font-size: large;
     font-weight: bold;
     margin-top: 0.5em;
+    h6 {
+        margin-top: 1em !important;
+    }
 
-    .settingsSubtitle {
-        font-size: medium;
-    }
-    
-    .inputCol {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-weight: normal;
-        font-style: italic;
-    
-    }
     .btn {            
         background-color: #FFFFFF;
         display: flex;
@@ -33,7 +24,8 @@
         background-color: #F4F7FF !important;
         color: #2d2d2d !important;
     }
-    .btn:active {
+    .btn:active {        
+        border-color: #051C59 !important;
         background-color: #DFE6F0 !important;
         color: #2d2d2d !important;
     }
@@ -42,13 +34,6 @@
         background-color: #F4F7FF !important;        
         color: #666666 !important;
     }
-    a {
-        display: flex;
-        justify-content: center;
-        text-decoration: none;
-        padding: 0;
-        width: unset;
-    }    
 }
 
 .modal.show {
@@ -68,4 +53,13 @@
             border-radius: 1em;
         }
     }
+}
+
+.warning.modal.show .modal-dialog {
+    width: 40%;
+}
+
+.warning.modal.show .modal-content {
+    border-width: 2px;
+    border-color: #FF3333;
 }
