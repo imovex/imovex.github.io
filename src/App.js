@@ -6,6 +6,8 @@ import Data from './Data';
 import Schedule from './Schedule';
 import Leaderboard from './Leaderboard';
 import Settings from './Settings';
+import HowTo from './HowTo';
+import About from './About';
 import './App.css';
 
 function App(){
@@ -38,7 +40,9 @@ function App(){
           <Route path="/intro" element={<Intro />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/data" element={<Data />} />
-          <Route path="/schedule" element={<Schedule />} />          
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/howto" element={<HowTo />} />
+          <Route path="/about" element={<About />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           {/* <Route path="/*" element={<Navigate to="/" />} /> */}

@@ -9,11 +9,11 @@
         margin-top: 1em !important;
     }
 
-    .btn {            
+    .btn {
         background-color: #FFFFFF;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
         font-size: medium;
         color: #2d2d2d;
         margin: 1em;
@@ -31,7 +31,7 @@
     }
     .btn:disabled {
         border-color: #2d2d2d !important;
-        background-color: #F4F7FF !important;        
+        background-color: #F4F7FF !important;
         color: #666666 !important;
     }
 }

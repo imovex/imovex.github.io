@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {Col, ProgressBar} from 'react-bootstrap';
+import {Col, Row, ProgressBar} from 'react-bootstrap';
 import './Schedule.css';
 import { InnerCardStandUp } from "./components/InnerCardStandUp.js";
 import { InnerCardStretch } from "./components/InnerCardStretch.js";
@@ -7,6 +7,8 @@ import { InnerCardMove } from "./components/InnerCardMove.js";
 import { OuterCard } from "./components/OuterCard.js";
 import HeaderNavbar from "./components/HeaderNavbar.js";
 import { postLogData } from './api';
+import { Link } from 'react-router-dom';
+import { InfoCircle, QuestionCircle } from "react-bootstrap-icons";
 
 export default function Schedule() {
     const [trigger, setTrigger] = useState(0);
@@ -239,7 +241,18 @@ export default function Schedule() {
     return (
         <div>
             <HeaderNavbar/>
+            <Col className="iconCol">
+                <Link to="/howto">
+                    <QuestionCircle className="howto-icon"/>
+                </Link>
+                <h7 style={{}}>How to iMOVEx</h7>
+                <h7 style={{}}>About iMOVEx</h7>
+                <Link to="/about">
+                    <InfoCircle className="about-icon"/>
+                </Link>
+            </Col>
             <Col className="scheduleCol">
+                
                 {
                     isGamified ?
                         (
@@ -294,6 +307,7 @@ export default function Schedule() {
                         </React.Fragment>
                     );
                 })}
+                
             </Col>
         </div>
     );

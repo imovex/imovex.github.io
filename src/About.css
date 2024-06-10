@@ -1,0 +1,32 @@
+.rightCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 1em; 
+    margin-inline: 4em;
+    text-align: justify;
+    flex: 2 !important;
+}
+
+.leftCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 !important;
+}
+
+.generalCol {
+    display: flex;
+    flex-direction: row;
+}
+
+.mePic {
+    width: 60%;
+    margin: 2em;
+}
+
+.inovex {
+    width: 60%;
+    margin: 2em;
+}

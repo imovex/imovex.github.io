@@ -9,7 +9,7 @@ export default function HeaderNavbar() {
 
     return (
         <Navbar>
-          <Nav>           
+          <Nav className="settings-nav">           
             <Nav.Link>
               <Link to="/settings">
                 <Gear className="settings-icon"/>

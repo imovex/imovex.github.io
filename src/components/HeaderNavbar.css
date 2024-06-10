@@ -1,6 +1,11 @@
 .navbar {
     background: #051C59;
 
+    .settings-nav {
+        position: absolute;
+        left: 10px;
+    }
+
     .settings-icon {
         height: 2em;
         width: 2em;
