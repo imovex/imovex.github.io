@@ -157,6 +157,7 @@ export default function Data() {
         <div>
             <Col className="input-col">
                 <Image className="welcome" src={`${process.env.PUBLIC_URL}/Welcome_iMOVEx.png`}/>
+                <Form.Label className="info-label">Let's get started by checking your working day routine. The application will generate an individual schedule based on your working times. They can still be edited. </Form.Label>
                 <Row className="info-row">
                     <Col className="input-col">
                         <Form.Label>Age</Form.Label>
@@ -168,21 +169,25 @@ export default function Data() {
                             className="select-data"
                             value={age}
                             onChange={handleAgeChange}
+                            isInvalid={!age}
                         />
                         <Form.Text className="error">{errorMessage}</Form.Text>
+                        {!age && <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>}
                         <Form.Label>Sex</Form.Label>
                         <Form.Control 
                             as="select" 
                             className="select-data"
                             value={sex}
                             onChange={handleSexChange}
+                            isInvalid={!sex}
                         >
                             <option disabled value="">Select your sex</option>
                             <option>Female</option>
                             <option>Male</option>
                             <option>Diverse</option>
                             <option>No answer</option>
-                        </Form.Control> 
+                        </Form.Control>
+                        {!sex && <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>}
                         <Col className="inovex-col">
                             <Form.Label>I work at inovex</Form.Label>
                             <Form.Check 
@@ -195,13 +200,12 @@ export default function Data() {
                         <Form.Control 
                             className="additional-info"
                             as="textarea"
-                            placeholder="Enter anything additional about yourself for example the company you work at or your job title"
+                            placeholder="You can enter anything additional about yourself for example the company you work at or your job title"
                             onChange={handleAddInfo}
                         />
                     </Col>
                     <WorkingTimePicker onWorkingTimesChange={handleWorkingTimesChange} onValidationChange={handleValidationChange}/>
                 </Row>
-                <Form.Label className="info-label">The application will generate an individual schedule based on your working times. They can still be edited. </Form.Label>
                 {(isValid && isFormValid) ? (
                     <Button onClick={handlePostUserData}>Let's go!</Button>
                     ) : (

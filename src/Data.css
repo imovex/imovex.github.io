@@ -49,11 +49,11 @@
         color: #666666 !important;
     }
     .info-label { 
-        margin-top: 2%;
-        font-size: medium;
+        margin-block: 2%;
+        font-size: large;
         font-weight: normal;
         text-align: center;
-        width: 100%;
+        width: 65%;
     }
 
     .form-check-input {
@@ -75,6 +75,10 @@
         .form-label {
             margin: 0;
         }
+    }
+    .invalid-feedback {
+        text-align: center;
+        font-weight: normal;
     }
 
     .additional-info {
