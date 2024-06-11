@@ -13,6 +13,7 @@ export default function Settings() {
     const [isFormValid, setIsFormValid] = useState(false);
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');
+    const [inovex, setInovex] = useState(true);
     const [username, setUsername] = useState('');
 
     useEffect(() => {
@@ -29,6 +30,7 @@ export default function Settings() {
                 setWorkingTimes(dataBaseWorkingTimes);
                 setAge(response.age);
                 setSex(response.sex);
+                setInovex(response.inovex);
                 setUsername(response.userName);
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -47,6 +49,7 @@ export default function Settings() {
     const handleSave = async () => {
         const userData = {
             gamification: (localStorage.getItem('gamification').toLowerCase() === "true"),
+            inovex: inovex,
             startTime: workingTimes.startTime,
             endTime: workingTimes.endTime,
             startBreakTime: workingTimes.breakStartTime,

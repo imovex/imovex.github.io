@@ -19,6 +19,7 @@ export default function Leaderboard() {
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');    
     const [username, setUsername] = useState('');
+    const [inovex, setInovex] = useState(true);
     const [usernameChanged, setUsernameChanged] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [currentUser, setCurrentUser] = useState({
@@ -42,6 +43,7 @@ export default function Leaderboard() {
         async function checkUsername() {
             try {
                 const response = await getUserData();
+                setInovex(response.inovex);
                 setUsername(response.userName);
                 setAge(response.age);
                 setSex(response.sex);
@@ -77,6 +79,7 @@ export default function Leaderboard() {
     const handleUsernameSubmit = async () => {
         const userData = {
             gamification: (localStorage.getItem('gamification').toLowerCase() === "true"),
+            inovex: inovex,
             startTime: workingTimes.startTime,
             endTime: workingTimes.endTime,
             startBreakTime: workingTimes.breakStartTime,

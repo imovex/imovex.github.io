@@ -21,6 +21,8 @@ export default function Data() {
     const [errorMessage, setErrorMessage] = useState('');
     const [isValid, setIsValid] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
+    const [inovex, setInovex] = useState(true);
+    const [addInfo, setAddInfo] = useState('');
 
     useEffect(() => {
         
@@ -63,12 +65,14 @@ export default function Data() {
             formattedSex = "NO_ANSWER"; 
         }
         const userData = {
+            inovex: inovex,
             startTime: workingTimes.startTime,
             endTime: workingTimes.endTime,
             startBreakTime: workingTimes.breakStartTime,
             endBreakTime: workingTimes.breakEndTime,
             age: Number(age),
             sex: formattedSex,
+            addInfo: addInfo,
         };
         try {
             localStorage.setItem('workingTimes',JSON.stringify(workingTimes));
@@ -141,13 +145,20 @@ export default function Data() {
         setWorkingTimes(validatedWorkingTimes);
     };
 
+    const handleCheckboxChange = (e) => {
+        setInovex(e.target.checked);
+    };
+
+    const handleAddInfo = (e) => {
+        setAddInfo(e.target.value);
+    };
+
     return (
         <div>
             <Col className="input-col">
                 <Image className="welcome" src={`${process.env.PUBLIC_URL}/Welcome_iMOVEx.png`}/>
                 <Row className="info-row">
                     <Col className="input-col">
-                        <Form.Label className="info-label">Let's start by setting up your average working day. The application will generate an individual schedule based on your working times. They can still be edited. </Form.Label>
                         <Form.Label>Age</Form.Label>
                         <Form.Control 
                             as="input" 
@@ -172,9 +183,25 @@ export default function Data() {
                             <option>Diverse</option>
                             <option>No answer</option>
                         </Form.Control> 
+                        <Col className="inovex-col">
+                            <Form.Label>I work at inovex</Form.Label>
+                            <Form.Check 
+                                type="checkbox"
+                                checked={inovex}
+                                onChange={handleCheckboxChange}
+                            />
+                        </Col>
+                        <Form.Label>Additional voluntary information</Form.Label>
+                        <Form.Control 
+                            className="additional-info"
+                            as="textarea"
+                            placeholder="Enter anything additional about yourself for example the company you work at or your job title"
+                            onChange={handleAddInfo}
+                        />
                     </Col>
                     <WorkingTimePicker onWorkingTimesChange={handleWorkingTimesChange} onValidationChange={handleValidationChange}/>
                 </Row>
+                <Form.Label className="info-label">The application will generate an individual schedule based on your working times. They can still be edited. </Form.Label>
                 {(isValid && isFormValid) ? (
                     <Button onClick={handlePostUserData}>Let's go!</Button>
                     ) : (
