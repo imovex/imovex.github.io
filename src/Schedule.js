@@ -245,8 +245,8 @@ export default function Schedule() {
                 <Link to="/howto">
                     <QuestionCircle className="howto-icon"/>
                 </Link>
-                <h7 style={{}}>How to iMOVEx</h7>
-                <h7 style={{}}>About iMOVEx</h7>
+                <h6 style={{}}>How to iMOVEx</h6>
+                <h6 style={{}}>About iMOVEx</h6>
                 <Link to="/about">
                     <InfoCircle className="about-icon"/>
                 </Link>

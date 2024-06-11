@@ -15,6 +15,7 @@ export default function Settings() {
     const [sex, setSex] = useState('');
     const [inovex, setInovex] = useState(true);
     const [username, setUsername] = useState('');
+    const [addInfo, setAddInfo] = useState('');
 
     useEffect(() => {
         async function fetchUserData() {
@@ -32,6 +33,7 @@ export default function Settings() {
                 setSex(response.sex);
                 setInovex(response.inovex);
                 setUsername(response.userName);
+                setAddInfo(response.voluntaryData);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
@@ -56,7 +58,8 @@ export default function Settings() {
             endBreakTime: workingTimes.breakEndTime,
             age: age,
             sex: sex,
-            userName: username
+            userName: username,
+            voluntaryData: addInfo, 
         };
 
         try {

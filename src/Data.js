@@ -72,7 +72,7 @@ export default function Data() {
             endBreakTime: workingTimes.breakEndTime,
             age: Number(age),
             sex: formattedSex,
-            addInfo: addInfo,
+            voluntaryData: addInfo,
         };
         try {
             localStorage.setItem('workingTimes',JSON.stringify(workingTimes));
@@ -200,6 +200,7 @@ export default function Data() {
                         <Form.Control 
                             className="additional-info"
                             as="textarea"
+                            value={addInfo}
                             placeholder="You can enter anything additional about yourself for example the company you work at or your job title"
                             onChange={handleAddInfo}
                         />
