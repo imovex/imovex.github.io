@@ -5,7 +5,7 @@ import './Intro.css';
 import './Header.css';
 
 function Intro() {
-    const [displayText, setDisplayText] = useState("Thank you for being interested in my research! This application will help you to increase the physical activity in your working day.<br/><br/>You are a suitable testuser if your day includes mainly sedentary work and if you are available for most of the testing period.<br/><br/>The testing period starts on <strong>17.06.2024</strong> and will last about <strong>4 weeks</strong>.");
+    const [displayText, setDisplayText] = useState("Thank you for being interested in my research! This application will help you to increase the physical activity in your working day.<br/><br/>You are a suitable testuser if your day includes mainly sedentary work and if you are available for most of the testing period.<br/><br/>The testing period starts on <strong>17.06.2024</strong> and ends on <strong>12.07.2024</strong>.");
     const [step, setStep] = useState(1);
 
     const handleButtonClick = () => {

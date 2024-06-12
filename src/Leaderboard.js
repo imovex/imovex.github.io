@@ -135,7 +135,9 @@ export default function Leaderboard() {
             {getLeaderboardUI()}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body>
-                    <h4>Username</h4>                    
+                    <h4>Username</h4>
+                    <h6>There is a little surprise waiting for the <strong>top 3 performers</strong> after the testing period. If you are in the top 3 at the end of the testing period just send me an e-mail with a screenshot as proof and you will receive your <strong>price</strong>! ☺</h6>   
+                    <h6>Happy competing everyone! </h6>
                     <Form.Text>Please note that you can only set your username once. Choose wisely.</Form.Text>
                     <Form.Control
                         type="text"
