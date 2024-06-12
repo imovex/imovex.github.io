@@ -79,6 +79,16 @@ export default function HowTo() {
                         you could break your routine so don't worry if you don't have a stand up desk. A walk to the coffee machine or to move around a little is also sufficient. 
                     </h6>
                 </Col>
+                <Col className="horizontalCol">
+                    <Image className="navbarPic" src={`${process.env.PUBLIC_URL}/howto/downloadImovex.png`}/>
+                    <h6>
+                        You can also <strong>download iMOVEx as a desktop application</strong> if you don't like to use it in the browser.
+                        Your schedule will be synchronized with the browser you downloaded from. If you chose to download the app
+                        please stick to the downloaded version for at least until your current schedule is finished to avoid confusion between 
+                        the browser and the downloaded application in relation to the collected data. On the next day you can uninstall the app 
+                        and continue in the browser if you changed your mind.
+                    </h6>
+                </Col>
             </Col>
         </div>
     );
