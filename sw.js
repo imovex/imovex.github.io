@@ -49,7 +49,19 @@ self.addEventListener('notificationclick', (event) => {
     let url = 'https://imovex.github.io/schedule';
 
     event.notification.close();
+
     event.waitUntil(
-        this.clients.openWindow(url)
+        this.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(windowClients => {
+            for (let i = 0; i < windowClients.length; i++) {
+                let client = windowClients[i];
+                if (client.url === url && 'focus' in client) {
+                    return client.focus();
+                }
+            }
+
+            if (this.clients.openWindow) {
+                return this.clients.openWindow(url);
+            }
+        })
     );
 });
