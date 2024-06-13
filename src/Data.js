@@ -17,8 +17,9 @@ export default function Data() {
         endTime: ""
     });
     const [age, setAge] = useState('');
-    const [sex, setSex] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [sex, setSex] = useState('');    
+    const [ageError, setAgeError] = useState(true);
+    const [ageErrorMessage, setAgeErrorMessage] = useState('Required');
     const [isValid, setIsValid] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
     const [inovex, setInovex] = useState(true);
@@ -40,17 +41,21 @@ export default function Data() {
     const handleAgeChange = (event) => {
         const inputAge = event.target.value;
         if ((inputAge >= 15) && (inputAge <= 80)) {
-            setAge(inputAge);            
-            setErrorMessage('');
+            setAge(inputAge);
+            setAgeError(false);          
+            setAgeErrorMessage('');
         } else if (inputAge > 80) {
             setAge(event.target.value);
-            setErrorMessage('Have you ever thought about retirement yet?');
+            setAgeError(true);     
+            setAgeErrorMessage('Have you ever thought about retirement yet?');
         } else if ((inputAge < 15) && (inputAge > 0)) {
             setAge(event.target.value);
-            setErrorMessage("Don't you want to enjoy your childhood a little longer?");
+            setAgeError(true);     
+            setAgeErrorMessage("Don't you want to enjoy your childhood a little longer?");
         } else {
             setAge(event.target.value);
-            setErrorMessage('Please enter a positive number as your age');
+            setAgeError(true);
+            setAgeErrorMessage("Required");
         }
     };
 
@@ -169,10 +174,9 @@ export default function Data() {
                             className="select-data"
                             value={age}
                             onChange={handleAgeChange}
-                            isInvalid={!age}
-                        />
-                        <Form.Text className="error">{errorMessage}</Form.Text>
-                        {!age && <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>}
+                            isInvalid={ageError}
+                        />                        
+                        {ageErrorMessage && <Form.Control.Feedback type="invalid">{ageErrorMessage}</Form.Control.Feedback>}
                         <Form.Label>Sex</Form.Label>
                         <Form.Control 
                             as="select" 
@@ -202,8 +206,10 @@ export default function Data() {
                             as="textarea"
                             value={addInfo}
                             placeholder="You can enter anything additional about yourself for example the company you work at or your job title"
-                            onChange={handleAddInfo}
-                        />
+                            onChange={handleAddInfo} 
+                            maxLength={500}
+                            />
+                            <div>{500 - addInfo.length} characters remaining</div>
                     </Col>
                     <WorkingTimePicker onWorkingTimesChange={handleWorkingTimesChange} onValidationChange={handleValidationChange}/>
                 </Row>
