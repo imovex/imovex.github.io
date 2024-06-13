@@ -16,6 +16,7 @@
         align-items: center !important;
         font-size: medium;
         color: #2d2d2d;
+        border-color: #051C59 !important;
         margin: 1em;
         height: 2em;
         width: 6em;
@@ -25,7 +26,6 @@
         color: #2d2d2d !important;
     }
     .btn:active {        
-        border-color: #051C59 !important;
         background-color: #DFE6F0 !important;
         color: #2d2d2d !important;
     }

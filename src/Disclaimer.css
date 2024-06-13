@@ -50,6 +50,7 @@
         align-items: center;
         font-size: medium;
         color: #2d2d2d;
+        border-color: #051C59 !important;
         height: auto;
     }
     .ok-button:hover {

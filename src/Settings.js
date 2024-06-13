@@ -104,7 +104,7 @@ export default function Settings() {
                 <Modal.Body>                    
                     <Col className="settingsCol">
                         <h4>Warning</h4>                    
-                        <h6>Be careful with changing your working times. The changes apply immediately but will only change the time of your remaining tasks. If you reschedule to an earlier working day some tasks may expire before you get the chance to complete them.</h6>
+                        <h6>Be careful when changing your working times. The changes apply immediately but will only change the time of your remaining tasks. If you reschedule to an earlier working day some tasks may expire before you get the chance to complete them.</h6>
                         <Button onClick={handleWarningClick}>Understood</Button>
                     </Col>
                 </Modal.Body>

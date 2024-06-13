@@ -71,8 +71,8 @@ export default function HowTo() {
                     <Image className="schedulePic" src={`${process.env.PUBLIC_URL}/howto/openTask.png`}/>
                     <h6>
                         If an <strong>event</strong> in your schedule <strong>is due</strong> you will <strong>receive a push notification</strong> that you can click. It will lead 
-                        to your schedule even if the application was closed unless you are using a <strong>Mac</strong>. In that case you have to <strong>leave the application open</strong> 
-                        to receive reliable notifications. Now you can decide if you want to <strong>complete the task or to skip it</strong>. Once marked the <strong>status</strong> of the task 
+                        to your schedule even if the application was closed unless you are using a <strong>Mac</strong>. In that case you need to <strong>leave your browser open</strong> to 
+                        receive reliable notifications. Now you can decide if you want to <strong>complete the task or to skip it</strong>. Once marked the <strong>status</strong> of the task 
                         <strong> can not be changed again</strong>. The stretch task suggests three exercises to mobilize your muscles. If you don't like the suggestions you can 
                         simply think of three short exercises yourself that break the sedentary position. You have to check all the boxes to mark the 'Stretch' task as done. 
                         It <strong>doesn't matter that you do exactly what is shown</strong>. What does matter is that you <strong>break the static position</strong>. 

@@ -31,6 +31,7 @@
     .ok-button {
         position: absolute;         
         background-color: #FFFFFF;
+        border-color: #051C59 !important;
         display: flex;
         justify-content: center;
         align-items: center;
