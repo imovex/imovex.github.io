@@ -19,6 +19,7 @@ export default function Leaderboard() {
     const [age, setAge] = useState('');
     const [sex, setSex] = useState('');    
     const [username, setUsername] = useState('');
+    const [addInfo, setAddInfo] = useState('');
     const [inovex, setInovex] = useState(true);
     const [usernameChanged, setUsernameChanged] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -47,6 +48,7 @@ export default function Leaderboard() {
                 setUsername(response.userName);
                 setAge(response.age);
                 setSex(response.sex);
+                setAddInfo(response.voluntaryData);
 
                 if ((response.userName === '') || (response.userName === null)) {
                     setShowModal(true); // Wenn kein Benutzername vorhanden, Modal zeigen
@@ -86,7 +88,8 @@ export default function Leaderboard() {
             endBreakTime: workingTimes.breakEndTime,
             age: Number(age),
             sex: sex,
-            userName: username
+            userName: username,
+            voluntaryData: addInfo
         };
         
         try {
