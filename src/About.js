@@ -1,6 +1,6 @@
 import React from "react";
 import HeaderNavbar from './components/HeaderNavbar';
-import { Col, Image } from 'react-bootstrap';
+import { Row, Col, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './About.css';
 
@@ -12,7 +12,17 @@ export default function About() {
             <Col className="generalCol">
                 <Col className="leftCol">
                     <Image className="mePic" src={`${process.env.PUBLIC_URL}/img/me.png`}/>
-                    <Image className="inovex" src={`${process.env.PUBLIC_URL}/img/inovex.png`}/>
+                    <Col className="impressum">
+                        <Image className="inovex" src={`${process.env.PUBLIC_URL}/img/inovex.png`}/>
+                        <h6>
+                            inovex GmbH<br></br>                        
+                            Ludwig-Erhard-Allee 6<br></br>                   
+                            76131 Karlsruhe<br></br>            
+                            Tel.: +49 721 619 021-0<br></br>
+                            Fax: +49 721 619 021-11<br></br>
+                            info@inovex.de
+                        </h6>
+                    </Col>
                 </Col>
                 <Col className="rightCol">
                     <h6>Hello there together!</h6>

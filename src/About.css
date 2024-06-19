@@ -21,13 +21,20 @@
     flex-direction: row;
 }
 
+.impressum {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .mePic {
     width: 60%;
     margin: 2em;
 }
 
 .inovex {
-    width: 60%;
+    width: 25%;
     margin: 2em;
 }
 
