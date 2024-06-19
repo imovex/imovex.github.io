@@ -5,6 +5,7 @@ import { WorkingTimePicker } from "./components/WorkingTimePicker.js";
 import HeaderNavbar from './components/HeaderNavbar';
 import { updateUser } from './api';
 import { getUserData } from './api';
+import { getPublicKey } from './api';
 
 export default function Settings() {
     const [workingTimes, setWorkingTimes ] = useState();
@@ -48,6 +49,60 @@ export default function Settings() {
         setWorkingTimes(workingTimes)
     }, []);
 
+    async function subscribePushService() {
+        try {
+            // Push-Benachrichtigungen zugelassen?
+            if (Notification.permission !== 'granted') {
+                // Push-Benachrichtigungen zulassen?
+                Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log('Push-Benachrichtigungen zugelassen');
+                }
+                });
+            }
+            const API_BASE_URL = 'https://sschulz.fra.ics.inovex.io';      
+
+            const publicVapidKey = await getPublicKey();
+            const urlBase64ToUint8Array = (base64String) => {
+                const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                const base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/');
+
+                const rawData = window.atob(base64);
+                const outputArray = new Uint8Array(rawData.length);
+
+                for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+                }
+                return outputArray;
+            };                
+            const registration = await navigator.serviceWorker.ready;
+
+            // Subscribe to push notifications
+            const subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+            });
+            const obj = new Object();
+            obj.userId = localStorage.getItem('userId');
+            obj.endpoint = subscription.endpoint;
+            obj.publicKey = subscription.toJSON().keys.p256dh;
+            obj.auth = subscription.toJSON().keys.auth;
+
+            const responseSubscribe = await fetch(`${API_BASE_URL}/api/subscribe`, {
+                method: 'POST',
+                body: JSON.stringify(obj),
+                headers: {
+                    'content-type': 'application/json',
+                },
+            });
+
+        } catch (error) {
+            console.error('Error posting user data:', error);
+        }
+    }
+
     const handleSave = async () => {
         const userData = {
             gamification: (localStorage.getItem('gamification').toLowerCase() === "true"),
@@ -71,6 +126,16 @@ export default function Settings() {
             console.error('Error updating user data:', error);
         }
         localStorage.setItem('workingTimes',JSON.stringify(workingTimes));
+        
+        if (Notification.permission !== 'granted') {
+            // Push-Benachrichtigungen zulassen?
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log('Push-Benachrichtigungen zugelassen');
+                    subscribePushService();
+                }
+            });
+        }
 
         setShowNotification(true);
         setTimeout(() => {
