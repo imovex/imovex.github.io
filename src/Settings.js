@@ -99,7 +99,7 @@ export default function Settings() {
             });
 
         } catch (error) {
-            console.error('Error posting user data:', error);
+            console.error('Error in subscription to PushService:', error);
         }
     }
 
