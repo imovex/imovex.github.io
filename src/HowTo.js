@@ -90,6 +90,19 @@ export default function HowTo() {
                         and continue in the browser if you changed your mind.
                     </h6>
                 </Col>
+                <Col className="firstRow">
+                    <h6>
+                        If your <strong>push notifications aren't working</strong> as expected you can try the following:
+                    </h6>
+                    <h6>
+                        Go to the settings and <strong>reset the permission</strong> for receiving push notifications from imovex.
+                        Confirm your working times again by <strong>clicking the "Save" button</strong>. Then imovex 
+                        should <strong>ask again for your permission</strong> to send push notifications. After confirming the 
+                        permission the process for subscribing the application's push service is triggered again and you should 
+                        receive the notifications. Please note that <strong>your company might have blocked</strong> services from 
+                        external sources and this could also be the reason that the notifications aren't working. 
+                    </h6>
+                </Col>
             </Col>
         </div>
     );
