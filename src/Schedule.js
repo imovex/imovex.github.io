@@ -245,8 +245,8 @@ export default function Schedule() {
                 <Link to="/howto">
                     <QuestionCircle className="howto-icon"/>
                 </Link>
-                <h6 style={{}}>How to iMOVEx</h6>
-                <h6 style={{}}>About iMOVEx</h6>
+                <h6>How to iMOVEx</h6>
+                <h6>About iMOVEx</h6>
                 <Link to="/about">
                     <InfoCircle className="about-icon"/>
                 </Link>
@@ -266,6 +266,8 @@ export default function Schedule() {
                             )
                         : undefined
                 }
+                
+                <h6>The testing period is over. Thank you for participating ☺</h6>
                 <h4>Today</h4>
                 {schedule.current.map((task, index) => {
                     let InnerCardComponent;
