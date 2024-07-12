@@ -114,9 +114,9 @@ export default function Leaderboard() {
         return <div className="leaderboard">
             <h4 style={{marginTop: "10px", marginBottom: 0}}>Leaderboard</h4>            
             <h6>The competition is closed! Our winners are:</h6>
-            <h6>1. Christian (111 points)</h6>
-            <h6>2. Byrd (105 points)</h6>
-            <h6>3. Super-Mammsche (92 points)</h6>
+            <h6>1. Christian (113 points)</h6>
+            <h6>2. Byrd (101 points)</h6>
+            <h6>3. Super-Mammsche (90 points)</h6>
             <h6>Please contact me for your prices. Thanks for participating ☺</h6>
 
             <p style={{marginTop: "2em", marginBottom: "5px", fontWeight: "bold"}}>Current Top Ten Performer</p>
